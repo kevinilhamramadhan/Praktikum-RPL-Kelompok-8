@@ -2,7 +2,6 @@
 require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
-// Fungsi untuk menangani upload gambar
 function handleImageUpload() {
     if (!isset($_FILES['image']) || $_FILES['image']['error'] == UPLOAD_ERR_NO_FILE) {
         if (isset($_POST['current_image'])) {
@@ -31,8 +30,6 @@ function handleImageUpload() {
     return null;
 }
 
-
-// Proses tambah item
 if (isset($_POST['add'])) {
     $data = [
         'name' => $_POST['name'],
@@ -48,11 +45,9 @@ if (isset($_POST['add'])) {
     exit;
 }
 
-// Proses edit item
 elseif (isset($_POST['edit']) && isset($_POST['id'])) {
     $id = $_POST['id'];
     
-    // Handle image
     $imageUrl = handleImageUpload();
     if (!$imageUrl && isset($_POST['current_image'])) {
         $imageUrl = $_POST['current_image'];
@@ -72,7 +67,6 @@ elseif (isset($_POST['edit']) && isset($_POST['id'])) {
     exit;
 }
 
-// Jika tidak ada action yang cocok
 header("Location: index.php");
 exit;
 ?>
