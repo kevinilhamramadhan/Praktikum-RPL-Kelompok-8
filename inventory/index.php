@@ -1,10 +1,25 @@
+<?php
+require_once 'includes/db_connect.php';
+require_once 'includes/functions.php';
+$items = getAllItems();
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+?>
+
+<?php
+
+
+// Ambil semua item dari database
+$items = getAllItems();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inventory</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>Inventory Management</title>
     <style>
         :root {
             --primary-color: #4CAF50;
@@ -364,7 +379,8 @@
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
         }
 
-    </style>    
+    </style> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
     <!-- Sidebar -->
@@ -438,67 +454,52 @@
 
             <!-- Inventory Grid -->
             <div class="inventory-grid">
-                <!-- Item 1 -->
-                <div class="inventory-card normal">
-                    <div class="close-icon"><i class="fas fa-times"></i></div>
-                    <img src="https://via.placeholder.com/100" alt="Engine Oil" class="product-image">
-                    <h3 class="product-name normal">Engine Oil 10W-40</h3>
-                    <div class="product-details">
-                        <p>Code: <span>SP001</span></p>
-                        <p>Brand: <span>Castrol</span></p>
-                        <p>Location: <span>Rack A-1</span></p>
-                        <p>Stock: <span class="stock-value normal">25</span></p>
-                    </div>
-                    <button class="edit-button normal">Edit</button>
+                <?php if (empty($items)): ?>
+                <div class="no-items">
+                    <p>Tidak ada item di inventory. Silakan tambahkan item baru.</p>
                 </div>
-
-                <!-- Item 2 -->
-                <div class="inventory-card normal">
-                    <div class="close-icon"><i class="fas fa-times"></i></div>
-                    <img src="https://via.placeholder.com/100" alt="Air Filter" class="product-image">
-                    <h3 class="product-name normal">Air Filter Element</h3>
-                    <div class="product-details">
-                        <p>Code: <span>SP002</span></p>
-                        <p>Brand: <span>Honda Genuine</span></p>
-                        <p>Location: <span>Shelf A-5</span></p>
-                        <p>Stock: <span class="stock-value normal">18</span></p>
-                    </div>
-                    <button class="edit-button normal">Edit</button>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="inventory-card low-stock">
-                    <div class="close-icon"><i class="fas fa-times"></i></div>
-                    <img src="https://via.placeholder.com/100" alt="Fuel Pump" class="product-image">
-                    <h3 class="product-name low-stock">Fuel Pump Assembly</h3>
-                    <div class="product-details">
-                        <p>Code: <span>SP003</span></p>
-                        <p>Brand: <span>Denso</span></p>
-                        <p>Location: <span>Storage Room 1</span></p>
-                        <p>Stock: <span class="stock-value low-stock">5</span></p>
-                    </div>
-                    <button class="edit-button low-stock">Edit</button>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="inventory-card out-of-stock">
-                    <div class="close-icon"><i class="fas fa-times"></i></div>
-                    <img src="https://via.placeholder.com/100" alt="Transmission Fluid" class="product-image">
-                    <div class="out-of-stock-label">Out of Stock</div>
-                    <h3 class="product-name out-of-stock">Transmission Fluid</h3>
-                    <div class="product-details">
-                        <p>Code: <span>SP004</span></p>
-                        <p>Brand: <span>Shell Helix</span></p>
-                        <p>Location: <span>Rack B-1</span></p>
-                        <p>Stock: <span class="stock-value out-of-stock">0</span></p>
-                    </div>
-                    <button class="edit-button out-of-stock">Edit</button>
-                </div>
+                <?php else: ?>
+                    <?php foreach ($items as $item): ?>
+                        <?php 
+                        // Tentukan kelas untuk item berdasarkan stock
+                        $stockClass = 'normal';
+                        if ($item['stock'] <= 0) {
+                            $stockClass = 'out-of-stock';
+                        } elseif ($item['stock'] <= 5) {
+                            $stockClass = 'low-stock';
+                        }
+                        ?>
+                        <div class="inventory-card <?php echo $stockClass; ?>">
+                            <div class="close-icon" data-id="<?php echo $item['id']; ?>"><i class="fas fa-times"></i></div>
+                            
+                            <?php if (!empty($item['image'])): ?>
+                                <img src="inventory/images/products/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
+                            <?php else: ?>
+                                <img src="https://via.placeholder.com/100" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
+                            <?php endif; ?>
+                            
+                            <?php if ($stockClass === 'out-of-stock'): ?>
+                                <div class="out-of-stock-label">Out of Stock</div>
+                            <?php endif; ?>
+                            
+                            <h3 class="product-name <?php echo $stockClass; ?>"><?php echo htmlspecialchars($item['name']); ?></h3>
+                            <div class="product-details">
+                                <p>Code: <span><?php echo htmlspecialchars($item['code'] ?? 'N/A'); ?></span></p>
+                                <p>Brand: <span><?php echo htmlspecialchars($item['brand'] ?? 'N/A'); ?></span></p>
+                                <p>Location: <span><?php echo htmlspecialchars($item['location'] ?? 'N/A'); ?></span></p>
+                                <p>Stock: <span class="stock-value <?php echo $stockClass; ?>"><?php echo $item['stock']; ?></span></p>
+                            </div>
+                            <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="edit-button <?php echo $stockClass; ?>">Edit</a>
+                        </div>
+                    <?php endforeach; ?>
+                <?php endif; ?>
             </div>
 
             <!-- Add Button -->
             <div class="add-button">
-                <i class="fas fa-plus"></i>
+                <a href="add_item.php" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-plus"></i>
+                </a>
             </div>
         </div>
     </div>
@@ -518,30 +519,17 @@
                 submenuIcon.classList.toggle('rotate-icon');
             });
             
-            // Add click event to edit buttons
-            const editButtons = document.querySelectorAll('.edit-button');
-            editButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    const cardElement = this.closest('.inventory-card');
-                    const productName = cardElement.querySelector('.product-name').textContent;
-                    alert('Edit functionality for: ' + productName);
-                });
-            });
-
-            // Add click event to add button
-            const addButton = document.querySelector('.add-button');
-            addButton.addEventListener('click', function() {
-                alert('Add new inventory item functionality');
-            });
-
-            // Add click event to close icons
+            // Add click event to close icons (delete functionality)
             const closeIcons = document.querySelectorAll('.close-icon');
             closeIcons.forEach(icon => {
                 icon.addEventListener('click', function() {
                     const cardElement = this.closest('.inventory-card');
                     const productName = cardElement.querySelector('.product-name').textContent;
-                    if (confirm('Are you sure you want to remove ' + productName + ' from inventory?')) {
-                        cardElement.remove();
+                    const itemId = this.getAttribute('data-id');
+                    
+                    if (confirm('Apakah Anda yakin ingin menghapus ' + productName + ' dari inventory?')) {
+                        // Send delete request
+                        window.location.href = 'delete_item.php?id=' + itemId;
                     }
                 });
             });
@@ -568,3 +556,5 @@
     </script>
 </body>
 </html>
+
+
