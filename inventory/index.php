@@ -10,8 +10,6 @@ error_reporting(E_ALL);
 
 <?php
 
-
-// Ambil semua item dari database
 $items = getAllItems();
 ?>
 <!DOCTYPE html>
@@ -133,7 +131,6 @@ $items = getAllItems();
             transform: rotate(180deg);
         }
 
-        /* Main content styling */
         .main-content {
             flex: 1;
             display: flex;
@@ -184,7 +181,6 @@ $items = getAllItems();
             height: 88vh;
         }
 
-        /* Search bar */
         .search-bar {
             display: flex;
             justify-content: flex-end;
@@ -222,7 +218,6 @@ $items = getAllItems();
             margin-left: 15px;
         }
 
-        /* Inventory grid */
         .inventory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -361,7 +356,6 @@ $items = getAllItems();
             background-color: var(--danger-color);
         }
 
-        /* Add button */
         .add-button {
             position: fixed;
             bottom: 30px;
@@ -383,7 +377,6 @@ $items = getAllItems();
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
-    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <img class="logo" src="../images/logo/Logo-group.png" alt="logo">
@@ -427,7 +420,6 @@ $items = getAllItems();
         </a>
     </div>
 
-    <!-- Main Content -->
     <div class="main-content">
         <div class="header">
             <h1>Inventory</h1>
@@ -439,7 +431,6 @@ $items = getAllItems();
             </div>
         </div>
         <div class="content">
-            <!-- Search Bar -->
             <div class="search-bar">
                 <div class="search-container">
                     <input type="text" placeholder="Search" class="search-input">
@@ -452,7 +443,6 @@ $items = getAllItems();
                 </div>
             </div>
 
-            <!-- Inventory Grid -->
             <div class="inventory-grid">
                 <?php if (empty($items)): ?>
                 <div class="no-items">
@@ -461,7 +451,6 @@ $items = getAllItems();
                 <?php else: ?>
                     <?php foreach ($items as $item): ?>
                         <?php 
-                        // Tentukan kelas untuk item berdasarkan stock
                         $stockClass = 'normal';
                         if ($item['stock'] <= 0) {
                             $stockClass = 'out-of-stock';
@@ -495,7 +484,6 @@ $items = getAllItems();
                 <?php endif; ?>
             </div>
 
-            <!-- Add Button -->
             <div class="add-button">
                 <a href="add_item.php" style="text-decoration: none; color: inherit;">
                     <i class="fas fa-plus"></i>
@@ -505,9 +493,7 @@ $items = getAllItems();
     </div>
 
     <script>
-        // Simple JavaScript for interactive features
         document.addEventListener('DOMContentLoaded', function() {
-            // Submenu toggle
             const hasSubmenu = document.querySelector('.has-submenu');
             const submenuIcon = document.querySelector('.submenu-icon');
             const submenu = document.querySelector('.submenu');
@@ -519,7 +505,6 @@ $items = getAllItems();
                 submenuIcon.classList.toggle('rotate-icon');
             });
             
-            // Add click event to close icons (delete functionality)
             const closeIcons = document.querySelectorAll('.close-icon');
             closeIcons.forEach(icon => {
                 icon.addEventListener('click', function() {
@@ -528,13 +513,11 @@ $items = getAllItems();
                     const itemId = this.getAttribute('data-id');
                     
                     if (confirm('Apakah Anda yakin ingin menghapus ' + productName + ' dari inventory?')) {
-                        // Send delete request
                         window.location.href = 'delete_item.php?id=' + itemId;
                     }
                 });
             });
 
-            // Search functionality
             const searchInput = document.querySelector('.search-input');
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
