@@ -2,7 +2,6 @@
 require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
-// Validasi input
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit;
@@ -10,21 +9,17 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 
 $id = $_GET['id'];
 
-// Cek apakah item ada
 $item = getItemById($id);
 if (!$item) {
     header("Location: index.php");
     exit;
 }
 
-// Jika ada konfirmasi delete
 if (isset($_GET['confirm']) && $_GET['confirm'] === 'yes') {
-    // Hapus gambar jika ada
     if (!empty($item['image']) && file_exists($item['image'])) {
         unlink($item['image']);
     }
     
-    // Hapus dari database
     deleteItem($id);
     header("Location: index.php");
     exit;
