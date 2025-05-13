@@ -280,7 +280,6 @@ include 'db_connect.php';
             color: white;
         }
         
-        /* Sparepart Description Modal Styles */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -402,7 +401,6 @@ include 'db_connect.php';
             color: #00a651;
         }
         
-        /* Edit Modal Styles */
         .edit-modal {
             background-color: #1c1c1c;
             border: 2px solid #00a651;
@@ -561,7 +559,6 @@ include 'db_connect.php';
         </div>
     </div>
 
-    <!-- Sparepart Description Modal -->
     <div id="sparepartModal" class="modal-overlay">
         <div class="sparepart-modal">
             <h2 class="modal-title">Sparepart Description</h2>
@@ -605,7 +602,6 @@ include 'db_connect.php';
         </div>
     </div>
 
-    <!-- Edit Sparepart Modal -->
     <div id="editModal" class="modal-overlay">
         <div class="edit-modal">
             <h2 class="modal-title">Edit Sparepart</h2>
@@ -647,7 +643,6 @@ include 'db_connect.php';
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Submenu toggle
             const hasSubmenu = document.querySelector('.has-submenu');
             const submenuIcon = document.querySelector('.submenu-icon');
             const submenu = document.querySelector('.submenu');
@@ -659,7 +654,6 @@ include 'db_connect.php';
                 submenuIcon.classList.toggle('rotate-icon');
             });
             
-            // Search functionality
             const searchInput = document.querySelector('.search-input');
             const searchBtn = document.querySelector('.search-btn');
             const tableRows = document.querySelectorAll('.data-table tbody tr');
@@ -694,7 +688,6 @@ include 'db_connect.php';
                 });
             }
             
-            // Add Stock Modal functionality
             const sparepartModal = document.getElementById('sparepartModal');
             const addButtons = document.querySelectorAll('.action-btn.add');
             const decreaseBtn = document.querySelector('.decrease-btn');
@@ -704,13 +697,11 @@ include 'db_connect.php';
             const cancelBtn = document.getElementById('btnCancel');
             const closeBtn = document.querySelectorAll('.close-btn');
             
-            // Form fields
             const spCodeField = document.getElementById('spCode');
             const spNameField = document.getElementById('spName');
             const spBrandField = document.getElementById('spBrand');
             const spLocationField = document.getElementById('spLocation');
             
-            // Open Sparepart modal
             addButtons.forEach(button => {
                 button.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -721,47 +712,39 @@ include 'db_connect.php';
                     const brand = this.getAttribute('data-brand');
                     const location = this.getAttribute('data-location');
                     
-                    // Populate form fields
                     spCodeField.value = code;
                     spNameField.value = name;
                     spBrandField.value = brand;
                     spLocationField.value = location;
                     stockInput.value = 0;
                     
-                    // Show modal
                     sparepartModal.style.display = 'flex';
                 });
             });
             
-            // Decrease stock button
             decreaseBtn.addEventListener('click', function() {
                 if (parseInt(stockInput.value) > 0) {
                     stockInput.value = parseInt(stockInput.value) - 1;
                 }
             });
             
-            // Increase stock button
             increaseBtn.addEventListener('click', function() {
                 stockInput.value = parseInt(stockInput.value) + 1;
             });
             
-            // Add stock (Save)
             addBtn.addEventListener('click', function() {
                 const code = spCodeField.value;
                 const additionalStock = parseInt(stockInput.value);
                 
                 if (additionalStock > 0) {
-                    // Find the row in the table and update stock
                     const rows = document.querySelectorAll('.data-table tbody tr');
                     rows.forEach(row => {
                         if (row.cells[0].textContent === code) {
                             const currentStock = parseInt(row.cells[2].textContent);
                             const newStock = currentStock + additionalStock;
                             
-                            // Update stock cell
                             row.cells[2].textContent = newStock;
                             
-                            // Update stock class
                             row.cells[2].className = '';
                             if (newStock > 20) {
                                 row.cells[2].classList.add('stock-normal');
@@ -773,16 +756,13 @@ include 'db_connect.php';
                                 row.cells[2].classList.add('stock-out');
                             }
                             
-                            // Update location cell if it was out of stock
                             if (currentStock <= 0 && newStock > 0) {
                                 row.cells[4].textContent = spLocationField.value;
                             }
                             
-                            // Update add button data-stock attribute
                             const addBtn = row.querySelector('.action-btn.add');
                             addBtn.setAttribute('data-stock', newStock);
                             
-                            // Show confirmation
                             alert('Added ' + additionalStock + ' to ' + spNameField.value + ' stock');
                         }
                     });
@@ -791,16 +771,13 @@ include 'db_connect.php';
                     return;
                 }
                 
-                // Close modal
                 sparepartModal.style.display = 'none';
             });
             
-            // Cancel button
             cancelBtn.addEventListener('click', function() {
                 sparepartModal.style.display = 'none';
             });
             
-            // Close buttons
             closeBtn.forEach(btn => {
                 btn.addEventListener('click', function() {
                     sparepartModal.style.display = 'none';
@@ -808,7 +785,6 @@ include 'db_connect.php';
                 });
             });
             
-            // Close modal when clicking outside
             window.addEventListener('click', function(e) {
                 if (e.target === sparepartModal) {
                     sparepartModal.style.display = 'none';
@@ -818,65 +794,54 @@ include 'db_connect.php';
                 }
             });
             
-            // Edit Modal functionality
             const editModal = document.getElementById('editModal');
             const editButtons = document.querySelectorAll('.action-btn.edit');
             
-            // Form fields
             const codeField = document.getElementById('code');
             const nameField = document.getElementById('name');
             const stockField = document.getElementById('stock');
             const brandField = document.getElementById('brand');
             const locationField = document.getElementById('location');
             
-            // Open Edit modal with sparepart data
             editButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const row = this.closest('tr');
                     const code = row.cells[0].textContent;
                     const name = row.cells[1].textContent;
                     
-                    // Get stock value
                     let stock = row.cells[2].textContent;
                     
                     const brand = row.cells[3].textContent;
                     
-                    // For location, check if it's "Out of Stock" or a regular location
                     let location = row.cells[4].textContent;
                     if (location.includes('Out of Stock')) {
                         location = '';
                     }
                     
-                    // Populate form fields
                     codeField.value = code;
                     nameField.value = name;
                     stockField.value = stock;
                     brandField.value = brand;
                     locationField.value = location;
                     
-                    // Show modal
                     editModal.style.display = 'flex';
                 });
             });
             
-            // Edit Save button
             document.querySelector('#editSparepartForm .btn-save').addEventListener('click', function() {
-                // Get the updated values
                 const code = codeField.value;
                 const name = nameField.value;
                 const stock = parseInt(stockField.value);
                 const brand = brandField.value;
                 const location = locationField.value;
                 
-                // Find the row in the table and update it
                 const rows = document.querySelectorAll('.data-table tbody tr');
                 rows.forEach(row => {
                     if (row.cells[0].textContent === code) {
                         row.cells[1].textContent = name;
                         
-                        // Update stock with proper color coding
                         row.cells[2].textContent = stock;
-                        row.cells[2].className = ''; // Clear all classes first
+                        row.cells[2].className = ''; 
                         
                         if (stock > 20) {
                             row.cells[2].classList.add('stock-normal');
@@ -890,14 +855,12 @@ include 'db_connect.php';
                         
                         row.cells[3].textContent = brand;
                         
-                        // Update location based on stock
                         if (stock <= 0) {
                             row.cells[4].innerHTML = '<span class="out-of-stock">Out of Stock</span>';
                         } else {
                             row.cells[4].textContent = location;
                         }
                         
-                        // Update add button data attributes
                         const addBtn = row.querySelector('.action-btn.add');
                         addBtn.setAttribute('data-name', name);
                         addBtn.setAttribute('data-stock', stock);
@@ -906,18 +869,15 @@ include 'db_connect.php';
                     }
                 });
                 
-                // Close modal
                 editModal.style.display = 'none';
             });
             
-            // Close modal when clicking outside
             window.addEventListener('click', function(e) {
                 if (e.target === editModal) {
                     editModal.style.display = 'none';
                 }
             });
             
-            // Delete button functionality
             const deleteButtons = document.querySelectorAll('.action-btn.delete');
             
             deleteButtons.forEach(button => {
@@ -926,13 +886,11 @@ include 'db_connect.php';
                     const code = row.cells[0].textContent;
                     const name = row.cells[1].textContent;
                     if(confirm('Are you sure you want to delete ' + name + ' (' + code + ')?')) {
-                        // Delete row (in a full implementation this would call an API)
                         row.remove();
                     }
                 });
             });
             
-            // Color-code stock levels
             const stockCells = document.querySelectorAll('.data-table tbody td:nth-child(3)');
             
             stockCells.forEach(cell => {
