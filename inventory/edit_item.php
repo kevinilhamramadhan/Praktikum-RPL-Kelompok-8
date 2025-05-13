@@ -2,7 +2,6 @@
 require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
-// Validasi ID
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header("Location: index.php");
     exit;
@@ -11,7 +10,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $id = $_GET['id'];
 $item = getItemById($id);
 
-// Jika item tidak ditemukan
 if (!$item) {
     header("Location: index.php");
     exit;
