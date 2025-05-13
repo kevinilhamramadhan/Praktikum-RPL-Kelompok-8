@@ -3,7 +3,6 @@ require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Form telah disubmit, proses data
     header("Location: process_item.php");
     exit;
 }
