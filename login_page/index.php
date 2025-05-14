@@ -193,6 +193,9 @@
             <h1>ReAngel Login</h1>
             <?php
             // This is just to show how PHP would be integrated, but we're keeping it frontend-only
+
+use Soap\Url;
+
             $error_message = "";
             if (!empty($error_message)) {
                 echo '<div class="error-message">' . $error_message . '</div>';
@@ -249,6 +252,7 @@
         // Make Sign In button clickable
         document.querySelector('.signin-btn').addEventListener('click', function() {
             document.querySelector('form').submit();
+            window.location.href = "../home_page/index.php";
         });
     </script>
 </body>
