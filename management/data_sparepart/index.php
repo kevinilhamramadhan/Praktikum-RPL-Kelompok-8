@@ -1,3 +1,7 @@
+<?php
+include 'db_connect.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -262,8 +266,20 @@
         .action-btn.delete {
             color: #ff4d4d;
         }
+
+        .action-btn.add {
+            color: #00a651;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #00a651;
+            border-radius: 5px;
+        }
         
-        /* Edit Modal Styles */
+        .action-btn.add:hover {
+            background-color: #00a651;
+            color: white;
+        }
+        
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -272,21 +288,19 @@
             bottom: 0;
             background-color: rgba(0, 0, 0, 0.5);
             display: flex;
-            justify-content: end;
+            justify-content: center;
             align-items: center;
             z-index: 1000;
             display: none;
         }
         
-        .edit-modal {
+        .sparepart-modal {
             background-color: #1c1c1c;
             border: 2px solid #00a651;
             border-radius: 10px;
-            width: 500px;
-            height: 90vh;
+            width: 400px;
             padding: 20px;
             position: relative;
-            overflow-y: auto;
         }
         
         .modal-title {
@@ -314,12 +328,12 @@
             display: block;
             margin-bottom: 8px;
             color: #00a651;
-            font-size: 18px;
+            font-size: 16px;
         }
         
         .form-control {
             width: 100%;
-            padding: 12px 15px;
+            padding: 10px;
             background-color: #1c1c1c;
             border: 1px solid #333;
             border-radius: 5px;
@@ -327,9 +341,36 @@
             font-size: 16px;
         }
         
-        textarea.form-control {
-            min-height: 100px;
-            resize: vertical;
+        .stock-control {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+        
+        .stock-btn {
+            width: 36px;
+            height: 36px;
+            background-color: #1c1c1c;
+            border: 1px solid #00a651;
+            border-radius: 5px;
+            color: #00a651;
+            font-size: 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+        
+        .stock-input {
+            width: 60px;
+            padding: 10px;
+            background-color: #1c1c1c;
+            border: 1px solid #333;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
         }
         
         .btn-container {
@@ -359,6 +400,22 @@
             border: 1px solid #00a651;
             color: #00a651;
         }
+        
+        .edit-modal {
+            background-color: #1c1c1c;
+            border: 2px solid #00a651;
+            border-radius: 10px;
+            width: 500px;
+            height: 90vh;
+            padding: 20px;
+            position: relative;
+            overflow-y: auto;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
     </style>
 </head>
 <body>
@@ -379,7 +436,7 @@
                 <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
             </a>
             <div class="submenu">
-                <a href="../../management/data_customer/index.php" class="submenu-item">Data Constumer Management</a>
+                <a href="../../management/data_customer/index.php" class="submenu-item">Data Consumer Management</a>
                 <a href="../../management/data_sparepart/index.php" class="submenu-item active">Data Sparepart Management</a>
             </div>
         </div>
@@ -442,57 +499,109 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php
+                        $sql = "SELECT * FROM inventory";
+                        $result = $conn->query($sql);
+
+                        if ($result->num_rows > 0):
+                            while($row = $result->fetch_assoc()):
+                                $stockClass = '';
+                                if ($row['stock'] > 20) {
+                                    $stockClass = 'stock-normal';
+                                } elseif ($row['stock'] > 10) {
+                                    $stockClass = 'stock-medium';
+                                } elseif ($row['stock'] > 0) {
+                                    $stockClass = 'stock-low';
+                                } else {
+                                    $stockClass = 'stock-out';
+                                }
+                        ?>
                         <tr>
-                            <td>SP001</td>
-                            <td>Engine Oil 10W-40</td>
-                            <td class="stock-normal">25</td>
-                            <td>Castrol</td>
-                            <td>Rack A-1</td>
+                            <td><?= $row['code']; ?></td>
+                            <td><?= $row['name']; ?></td>
+                            <td class="<?= $stockClass; ?>"><?= $row['stock']; ?></td>
+                            <td><?= $row['brand']; ?></td>
                             <td>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete"><i class="fas fa-trash-alt"></i></button>
+                                <?php if ($row['stock'] <= 0): ?>
+                                    <span class="out-of-stock">Out of Stock</span>
+                                <?php else: ?>
+                                    <?= $row['location']; ?>
+                                <?php endif; ?>
+                            </td>
+                            <td>
+                                <button class="action-btn edit" data-id="<?= $row['id']; ?>">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" data-id="<?= $row['id']; ?>">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                                <a href="#" class="action-btn add" data-id="<?= $row['id']; ?>" 
+                                   data-code="<?= $row['code']; ?>" 
+                                   data-name="<?= $row['name']; ?>" 
+                                   data-stock="<?= $row['stock']; ?>" 
+                                   data-brand="<?= $row['brand']; ?>" 
+                                   data-location="<?= $row['location']; ?>">
+                                    <i class="fas fa-plus"></i> Add
+                                </a>
                             </td>
                         </tr>
+                        <?php
+                            endwhile;
+                        else:
+                        ?>
                         <tr>
-                            <td>SP002</td>
-                            <td>Air Filter Element</td>
-                            <td class="stock-medium">18</td>
-                            <td>Honda Genuine</td>
-                            <td>Shelf A-5</td>
-                            <td>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete"><i class="fas fa-trash-alt"></i></button>
-                            </td>
+                            <td colspan="6">Data belum tersedia</td>
                         </tr>
-                        <tr>
-                            <td>SP003</td>
-                            <td>Fuel Pump Assembly</td>
-                            <td class="stock-low">5</td>
-                            <td>Denso</td>
-                            <td>Storage Room 1</td>
-                            <td>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete"><i class="fas fa-trash-alt"></i></button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>SP004</td>
-                            <td>Transmission Fluid</td>
-                            <td class="stock-out">0</td>
-                            <td>Shell Helix</td>
-                            <td><span class="out-of-stock">Out of Stock</span></td>
-                            <td>
-                                <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                <button class="action-btn delete"><i class="fas fa-trash-alt"></i></button>
-                            </td>
-                        </tr>
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
         </div>
     </div>
 
-    <!-- Edit Sparepart Modal -->
+    <div id="sparepartModal" class="modal-overlay">
+        <div class="sparepart-modal">
+            <h2 class="modal-title">Sparepart Description</h2>
+            <button class="close-btn">&times;</button>
+            
+            <form id="sparepartForm">
+                <div class="form-group">
+                    <label for="spCode">Code</label>
+                    <input type="text" id="spCode" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="spName">Name</label>
+                    <input type="text" id="spName" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="spBrand">Brand</label>
+                    <input type="text" id="spBrand" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="spLocation">Location</label>
+                    <input type="text" id="spLocation" class="form-control" readonly>
+                </div>
+                
+                <div class="form-group">
+                    <label for="spStock">Stock</label>
+                    <div class="stock-control">
+                        <button type="button" class="stock-btn decrease-btn">-</button>
+                        <input type="number" id="spStock" class="stock-input" value="0" min="0">
+                        <button type="button" class="stock-btn increase-btn">+</button>
+                    </div>
+                </div>
+                
+                <div class="btn-container">
+                    <button type="button" class="btn btn-save" id="btnAdd">Add</button>
+                    <button type="button" class="btn btn-cancel" id="btnCancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div id="editModal" class="modal-overlay">
         <div class="edit-modal">
             <h2 class="modal-title">Edit Sparepart</h2>
@@ -534,7 +643,6 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Submenu toggle
             const hasSubmenu = document.querySelector('.has-submenu');
             const submenuIcon = document.querySelector('.submenu-icon');
             const submenu = document.querySelector('.submenu');
@@ -546,7 +654,6 @@
                 submenuIcon.classList.toggle('rotate-icon');
             });
             
-            // Search functionality
             const searchInput = document.querySelector('.search-input');
             const searchBtn = document.querySelector('.search-btn');
             const tableRows = document.querySelectorAll('.data-table tbody tr');
@@ -581,81 +688,160 @@
                 });
             }
             
-            // Edit Modal functionality
+            const sparepartModal = document.getElementById('sparepartModal');
+            const addButtons = document.querySelectorAll('.action-btn.add');
+            const decreaseBtn = document.querySelector('.decrease-btn');
+            const increaseBtn = document.querySelector('.increase-btn');
+            const stockInput = document.getElementById('spStock');
+            const addBtn = document.getElementById('btnAdd');
+            const cancelBtn = document.getElementById('btnCancel');
+            const closeBtn = document.querySelectorAll('.close-btn');
+            
+            const spCodeField = document.getElementById('spCode');
+            const spNameField = document.getElementById('spName');
+            const spBrandField = document.getElementById('spBrand');
+            const spLocationField = document.getElementById('spLocation');
+            
+            addButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const code = this.getAttribute('data-code');
+                    const name = this.getAttribute('data-name');
+                    const stock = this.getAttribute('data-stock');
+                    const brand = this.getAttribute('data-brand');
+                    const location = this.getAttribute('data-location');
+                    
+                    spCodeField.value = code;
+                    spNameField.value = name;
+                    spBrandField.value = brand;
+                    spLocationField.value = location;
+                    stockInput.value = 0;
+                    
+                    sparepartModal.style.display = 'flex';
+                });
+            });
+            
+            decreaseBtn.addEventListener('click', function() {
+                if (parseInt(stockInput.value) > 0) {
+                    stockInput.value = parseInt(stockInput.value) - 1;
+                }
+            });
+            
+            increaseBtn.addEventListener('click', function() {
+                stockInput.value = parseInt(stockInput.value) + 1;
+            });
+            
+            addBtn.addEventListener('click', function() {
+                const code = spCodeField.value;
+                const additionalStock = parseInt(stockInput.value);
+                
+                if (additionalStock > 0) {
+                    const rows = document.querySelectorAll('.data-table tbody tr');
+                    rows.forEach(row => {
+                        if (row.cells[0].textContent === code) {
+                            const currentStock = parseInt(row.cells[2].textContent);
+                            const newStock = currentStock + additionalStock;
+                            
+                            row.cells[2].textContent = newStock;
+                            
+                            row.cells[2].className = '';
+                            if (newStock > 20) {
+                                row.cells[2].classList.add('stock-normal');
+                            } else if (newStock > 10) {
+                                row.cells[2].classList.add('stock-medium');
+                            } else if (newStock > 0) {
+                                row.cells[2].classList.add('stock-low');
+                            } else {
+                                row.cells[2].classList.add('stock-out');
+                            }
+                            
+                            if (currentStock <= 0 && newStock > 0) {
+                                row.cells[4].textContent = spLocationField.value;
+                            }
+                            
+                            const addBtn = row.querySelector('.action-btn.add');
+                            addBtn.setAttribute('data-stock', newStock);
+                            
+                            alert('Added ' + additionalStock + ' to ' + spNameField.value + ' stock');
+                        }
+                    });
+                } else {
+                    alert('Please enter a quantity greater than 0');
+                    return;
+                }
+                
+                sparepartModal.style.display = 'none';
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                sparepartModal.style.display = 'none';
+            });
+            
+            closeBtn.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    sparepartModal.style.display = 'none';
+                    document.getElementById('editModal').style.display = 'none';
+                });
+            });
+            
+            window.addEventListener('click', function(e) {
+                if (e.target === sparepartModal) {
+                    sparepartModal.style.display = 'none';
+                }
+                if (e.target === document.getElementById('editModal')) {
+                    document.getElementById('editModal').style.display = 'none';
+                }
+            });
+            
             const editModal = document.getElementById('editModal');
             const editButtons = document.querySelectorAll('.action-btn.edit');
-            const closeBtn = document.querySelector('.close-btn');
-            const cancelBtn = document.querySelector('.btn-cancel');
-            const saveBtn = document.querySelector('.btn-save');
             
-            // Form fields
             const codeField = document.getElementById('code');
             const nameField = document.getElementById('name');
             const stockField = document.getElementById('stock');
             const brandField = document.getElementById('brand');
             const locationField = document.getElementById('location');
             
-            // Open modal with sparepart data
             editButtons.forEach(button => {
                 button.addEventListener('click', function() {
                     const row = this.closest('tr');
                     const code = row.cells[0].textContent;
                     const name = row.cells[1].textContent;
                     
-                    // Get stock value (remove any non-numeric characters)
                     let stock = row.cells[2].textContent;
-                    stock = stock.replace(/\D/g, '');
                     
                     const brand = row.cells[3].textContent;
                     
-                    // For location, check if it's "Out of Stock" or a regular location
                     let location = row.cells[4].textContent;
                     if (location.includes('Out of Stock')) {
                         location = '';
                     }
                     
-                    // Populate form fields
                     codeField.value = code;
                     nameField.value = name;
                     stockField.value = stock;
                     brandField.value = brand;
                     locationField.value = location;
                     
-                    // Show modal
                     editModal.style.display = 'flex';
                 });
             });
             
-            // Close modal
-            closeBtn.addEventListener('click', function() {
-                editModal.style.display = 'none';
-            });
-            
-            cancelBtn.addEventListener('click', function() {
-                editModal.style.display = 'none';
-            });
-            
-            // Save changes
-            saveBtn.addEventListener('click', function() {
-                // Get the updated values
+            document.querySelector('#editSparepartForm .btn-save').addEventListener('click', function() {
                 const code = codeField.value;
                 const name = nameField.value;
                 const stock = parseInt(stockField.value);
                 const brand = brandField.value;
                 const location = locationField.value;
                 
-                // In a real app, we would send this data to the server
-                alert('Sparepart data updated for: ' + name + ' (' + code + ')');
-                
-                // Find the row in the table and update it
                 const rows = document.querySelectorAll('.data-table tbody tr');
                 rows.forEach(row => {
                     if (row.cells[0].textContent === code) {
                         row.cells[1].textContent = name;
                         
-                        // Update stock with proper color coding
                         row.cells[2].textContent = stock;
-                        row.cells[2].className = ''; // Clear all classes first
+                        row.cells[2].className = ''; 
                         
                         if (stock > 20) {
                             row.cells[2].classList.add('stock-normal');
@@ -669,27 +855,29 @@
                         
                         row.cells[3].textContent = brand;
                         
-                        // Update location based on stock
                         if (stock <= 0) {
                             row.cells[4].innerHTML = '<span class="out-of-stock">Out of Stock</span>';
                         } else {
                             row.cells[4].textContent = location;
                         }
+                        
+                        const addBtn = row.querySelector('.action-btn.add');
+                        addBtn.setAttribute('data-name', name);
+                        addBtn.setAttribute('data-stock', stock);
+                        addBtn.setAttribute('data-brand', brand);
+                        addBtn.setAttribute('data-location', location);
                     }
                 });
                 
-                // Close modal
                 editModal.style.display = 'none';
             });
             
-            // Close modal when clicking outside
             window.addEventListener('click', function(e) {
                 if (e.target === editModal) {
                     editModal.style.display = 'none';
                 }
             });
             
-            // Delete button functionality
             const deleteButtons = document.querySelectorAll('.action-btn.delete');
             
             deleteButtons.forEach(button => {
@@ -698,13 +886,11 @@
                     const code = row.cells[0].textContent;
                     const name = row.cells[1].textContent;
                     if(confirm('Are you sure you want to delete ' + name + ' (' + code + ')?')) {
-                        // Delete row (in a full implementation this would call an API)
                         row.remove();
                     }
                 });
             });
             
-            // Color-code stock levels
             const stockCells = document.querySelectorAll('.data-table tbody td:nth-child(3)');
             
             stockCells.forEach(cell => {
