@@ -21,7 +21,7 @@ if ($user && md5($password) === $user['password']) {
     // Login berhasil
     $_SESSION['user_id'] = $user['id'];
     $_SESSION['username'] = $user['username'];
-    header("Location: ../../frontend/home_page/index.php");
+    header("Location: ../../frontend/app/homepage.php");
     exit();
 } else {
     // Login gagal
