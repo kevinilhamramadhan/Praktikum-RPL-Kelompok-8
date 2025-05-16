@@ -46,7 +46,7 @@
                 Help
             </a>
             
-            <a href="../my_account/index.php" class="menu-item">
+            <a href="myaccount.php" class="menu-item">
                 <i class="fas fa-user"></i>
                 My Account
             </a>
