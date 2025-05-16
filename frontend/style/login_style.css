@@ -1,0 +1,175 @@
+body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background-image: url('../images/backgrounds/login.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: #fff;
+}
+
+.container{
+    width: 280px;
+    padding-bottom: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
+    overflow: visible;
+}
+
+.login-container {
+    background-color: #2a2a2a;
+    border-radius: 5px;
+    padding-bottom: 15px;
+    border: 1px solid #222;
+}
+
+.top-bar {
+    height: 20px;
+    background-color: transparent;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.profile-circle {
+    width: 60px;
+    height: 60px;
+    background-color: #17c24d;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: -10px;
+    border: 3px solid #121212;
+}
+
+.profile-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.profile-head {
+    width: 20px;
+    height: 20px;
+    background-color: #121212;
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.profile-body {
+    width: 28px;
+    height: 14px;
+    background-color: #121212;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+h1 {
+    text-align: center;
+    font-size: 18px;
+    letter-spacing: 0.5px;
+    margin: 45px 0 18px;
+    font-weight: normal;
+}
+
+.input-field {
+    margin: 8px 20px;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: none;
+    background-color: #1e1e1e;
+    color: #aaa;
+    border-radius: 3px;
+    box-sizing: border-box;
+    font-size: 13px;
+}
+
+.password-field {
+    position: relative;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #17c24d;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.signin-btn {
+    background-color: #27832e;
+    color: #fff;
+    border: none;
+    border-radius: 3px;
+    padding: 8px;
+    margin: 8px 20px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 20px;
+    font-size: 12px;
+}
+
+.remember-container {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox {
+    width: 12px;
+    height: 12px;
+    border: 1px solid #333;
+    background-color: transparent;
+    margin-right: 6px;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: #17c24d;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+.signup-section {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 12px;
+    color: #888;
+}
+
+.signup-link {
+    color: #17c24d;
+    text-decoration: none;
+}
+
+/* Eye icon SVG styling */
+.eye-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: #17c24d;
+}
