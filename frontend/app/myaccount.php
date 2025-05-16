@@ -86,9 +86,9 @@
                     <div class="profile-info">
                         <div class="profile-avatar"></div>
                         <div class="profile-details">
-                            <h2>Leopoldo Benavent Villada</h2>
-                            <p>Leopoldobenavent@reangel.com</p>
-                            <p>Joined April 2025</p>
+                            <p id="username"></p>
+                            <p id="email"></p>
+                            <p id="jabatan"></p>
                         </div>
                         <button class="edit-profile-btn">Edit Profile</button>
                     </div>
