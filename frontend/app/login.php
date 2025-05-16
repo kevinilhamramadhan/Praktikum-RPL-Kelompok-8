@@ -6,7 +6,7 @@
     <title>ReAngel Login</title>
     <link rel="stylesheet" href="../style/login_style.css">
 </head>
-    <script src="../script/login_script.js"></script>
+
 <body>
     <div class="container">
         <div class="top-bar">
@@ -46,19 +46,16 @@ use Soap\Url;
                     <button type="submit" class="signin-btn">Sign In</button>
 
                     <div class="options">
-                        <label class="remember-container">
-                            <div class="checkbox"></div>
-                            <span>Remember me</span>
-                        </label>
+                    <label class="remember-container" style="display: flex; align-items: center; cursor: pointer;">
+                        <input type="checkbox" name="remember" style="margin-right: 8px;">
+                        <span>Remember me</span>
+                    </label>
                         <a href="#" class="forgot-password">Forgot Password?</a>
                     </div>
                 </form>
 
         </div>
-        <div class="signup-section">
-                Don't have any account? <a href="#" class="signup-link">Sign up here</a>
-        </div>
     </div>
-
+    <script src="../script/login_script.js"></script>
 </body>
 </html>

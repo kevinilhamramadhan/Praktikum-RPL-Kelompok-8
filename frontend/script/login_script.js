@@ -1,12 +1,9 @@
-// Toggle password visibility
 document.getElementById('toggle-password').addEventListener('click', function() {
     const passwordField = document.getElementById('password-field');
-    passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
-});
+    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+    passwordField.setAttribute('type', type);
 
-// Make checkbox clickable
-document.querySelector('.checkbox').addEventListener('click', function() {
-    this.style.backgroundColor = this.style.backgroundColor === 'rgb(23, 194, 77)' ? 'transparent' : '#17c24d';
+    // Optional: change icon color
+    this.querySelector('svg').style.fill = type === 'password' ? '#666' : '#007bff';
 });
-
 

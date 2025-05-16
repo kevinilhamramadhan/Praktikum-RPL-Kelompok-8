@@ -116,6 +116,7 @@ input[type="password"] {
 }
 
 .signin-btn {
+    width: 86%;
     background-color: #27832e;
     color: #fff;
     border: none;
@@ -168,6 +169,20 @@ input[type="password"] {
 }
 
 /* Eye icon SVG styling */
+
+.password-field {
+    position: relative;
+    width: 100%;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
 .eye-icon svg {
     width: 16px;
     height: 16px;
