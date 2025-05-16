@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo:wght@600&display=swap');
+
 /* Reset and Base Styles */
 * {
     margin: 0;
@@ -52,7 +54,8 @@ body {
 .menu-item:hover, .menu-item.active {
     background-color: #2a2a2a;
     color: #00a651;
-    border-left: 4px solid #00a651;
+    border-top: 2px solid #00a651;
+    border-bottom: 2px solid #00a651;
 }
 
 .menu-item.active {
@@ -220,8 +223,9 @@ body {
 }
 
 .profile-avatar {
-    width: 100px;
-    height: 100px;
+    width: 120px;
+    height: 120px;
+    border: 3px solid #00a651;
     background-color: #ccc;
     border-radius: 50%;
     margin-right: 20px;
@@ -236,16 +240,23 @@ body {
     margin-bottom: 5px;
 }
 
+
 .edit-profile-btn {
-    background-color: #2ecc71;
-    color: #fff;
+    background: linear-gradient(135deg, #86f871, #166116); /* Gradasi neon green */
     border: none;
-    padding: 10px 20px;
+    padding: 8px 32px;
     border-radius: 5px;
+    color: black;
+    font-family: 'Exo', sans-serif; 
+    text-decoration: none;
+    text-align: center;
     cursor: pointer;
-    font-weight: bold;
+    transition: all 0.3s ease;
     margin-left: auto;
 }
+
+
+
 
 /* Preferences Section */
 .preference-item {
@@ -254,6 +265,16 @@ body {
     align-items: center;
     margin-bottom: 15px;
 }
+
+.section {
+    background-color: transparent; /* Putih transparan */
+    padding: 20px;
+    border-radius: 10px;
+    backdrop-filter: blur(10px); /* Opsional: efek kaca */
+    -webkit-backdrop-filter: blur(10px); /* Untuk dukungan Safari */
+    border: 1px solid #2ecc71(0.2); /* Opsional: border transparan */
+}
+
 
 .toggle-switch {
     position: relative;
@@ -304,15 +325,31 @@ input:checked + .slider:before {
     background-color: transparent;
     color: #2ecc71;
     border: 1px solid #2ecc71;
-    padding: 8px 15px;
+    padding: 8px 40px;
     border-radius: 5px;
     cursor: pointer;
     display: flex;
     align-items: center;
+    font-family: 'Exo', sans-serif; 
 }
 
 .enable-btn i {
     margin-left: 5px;
+}
+
+
+.logout-btn {
+    background: linear-gradient(135deg, #86f871, #166116); /* Gradasi neon green */
+    border: none;
+    padding: 8px 47px;
+    border-radius: 5px;
+    color: black;
+    font-family: 'Exo', sans-serif; 
+    text-decoration: none;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
 }
 
 /* Activity Section */

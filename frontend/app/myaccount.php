@@ -14,7 +14,7 @@
             <img class="logo" src="../images/logo/Logo-group.png" alt="logo">
         </div>
         
-        <a href="../home_page/index.php" class="menu-item">
+        <a href="homepage.php" class="menu-item">
             <i class="fas fa-home"></i>
             Home
         </a>
@@ -37,19 +37,20 @@
         </a>
         
         <a href="../repair_service/index.php" class="menu-item">
-            <i class="fas fa-wrench"></i>
+            <i class="fas fa-cogs"></i>
             Repair Service
         </a>
         
         <a href="../help/index.php" class="menu-item">
-            <i class="fas fa-question-circle"></i>
+            <i class="fas fa-info-circle"></i>
             Help
         </a>
         
-        <a href="../my_account/index.php" class="menu-item active">
-            <i class="fas fa-user"></i>
+        <a href="../app/myaccount.php" class="menu-item active">
+              <i class="fas fa-user"></i>
             My Account
         </a>
+
     </div>
 
     <!-- Main Content Area -->
@@ -97,36 +98,21 @@
                 <div class="section">
                     <h2 class="section-title">Account Preferences</h2>
                     <div class="preference-item">
-                        <span>Dark Mode</span>
-                        <label class="toggle-switch">
-                            <input type="checkbox" checked>
-                            <span class="slider"></span>
-                        </label>
-                    </div>
-                    <div class="preference-item">
                         <span>Notification</span>
                         <button class="enable-btn">
                             Enable <i class="fas fa-chevron-right"></i>
                         </button>
                     </div>
+                    <div class="preference-item">
+                        <span>Activity</span>
+                    </div>
+                    <div class="preference-item">
+                        <span>Switch Account</span>
+                        <button class="logout-btn">Logout</button>
+                    </div>
                 </div>
 
-                <!-- Activity Section -->
-                <div class="section">
-                    <h2 class="section-title">Activity</h2>
-                    <div class="activity-item">
-                        <span>Edited Spareparts Data</span>
-                        <i class="fas fa-chevron-right" style="color: #2ecc71;"></i>
-                    </div>
-                    <div class="activity-item">
-                        <span>Added A New Customer</span>
-                        <i class="fas fa-chevron-right" style="color: #2ecc71;"></i>
-                    </div>
-                    <div class="activity-item">
-                        <span>Logged In</span>
-                        <i class="fas fa-chevron-right" style="color: #2ecc71;"></i>
-                    </div>
-                </div>
+                
             </div>
         </div>
     </div>
