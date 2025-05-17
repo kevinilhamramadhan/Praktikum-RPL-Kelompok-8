@@ -14,17 +14,18 @@ body {
 }
 
 .container{
-    width: 280px;
+    width: 330px;
     padding-bottom: 15px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     overflow: visible;
+
 }
 
 .login-container {
     background-color: #2a2a2a;
     border-radius: 5px;
     padding-bottom: 15px;
-    border: 1px solid #222;
+    border: 5px solid #27832E;
 }
 
 .top-bar {
@@ -36,21 +37,21 @@ body {
 }
 
 .profile-circle {
-    width: 60px;
-    height: 60px;
-    background-color: #17c24d;
+    width: 100px;
+    height: 100px;
+    background-color:#27832E;
     border-radius: 50%;
     display: flex;
     justify-content: center;
     align-items: center;
     position: absolute;
-    top: -10px;
-    border: 3px solid #121212;
+    top: -40px;
+    border: 50px ;
 }
 
 .profile-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
 }
 
 .profile-head {
@@ -76,12 +77,28 @@ body {
 }
 
 h1 {
+    font-family: 'Oxanium';
     text-align: center;
-    font-size: 18px;
+    font-size: 30px;
     letter-spacing: 0.5px;
     margin: 45px 0 18px;
     font-weight: normal;
 }
+
+
+.input-field label {
+  font-family: 'Rajdhani', sans-serif;
+  display: block;
+  margin-bottom: 5px;
+  font-size: 16px;
+  font-weight: 600;
+  background: linear-gradient(90deg, #27832E, #50EF66); /* gradient warna */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+
 
 .input-field {
     margin: 8px 20px;
@@ -91,7 +108,7 @@ input[type="text"],
 input[type="password"] {
     width: 100%;
     padding: 8px 10px;
-    border: none;
+    border: 3px ;
     background-color: #1e1e1e;
     color: #aaa;
     border-radius: 3px;
@@ -117,7 +134,7 @@ input[type="password"] {
 
 .signin-btn {
     width: 86%;
-    background-color: #27832e;
+    background: radial-gradient(circle, #50EF66 0%, #17bc25 40%, #27832E 80%);
     color: #fff;
     border: none;
     border-radius: 3px;
@@ -131,7 +148,7 @@ input[type="password"] {
 .input-error {
   border: 2px solid red !important;
   /* Optional: agar border jelas kelihatan */
-  box-shadow: 0 0 5px red;
+
 }
 
 
@@ -139,6 +156,14 @@ input[type="password"] {
   background-color: red;
   color: white;
   border: none;
+}
+
+#error-message {
+    font-size: 12px;
+  color: red;
+  margin-bottom: 10px;
+  min-height: 20px;
+  text-align: center;
 }
 
 
@@ -158,7 +183,7 @@ input[type="password"] {
 .checkbox {
     width: 12px;
     height: 12px;
-    border: 1px solid #333;
+    border: 1px solid #50EF66;
     background-color: transparent;
     margin-right: 6px;
     cursor: pointer;
@@ -180,7 +205,7 @@ input[type="password"] {
 .eye-icon {
     position: absolute;
     right: 10px;
-    top: 50%;
+    top: 70%;
     transform: translateY(-50%);
     cursor: pointer;
 }

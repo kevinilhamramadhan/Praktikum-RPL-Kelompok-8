@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ReAngel Login</title>
     <link rel="stylesheet" href="../style/login_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Oxanium&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Rajdhani&display=swap" rel="stylesheet">
 </head>
 
 <body>
@@ -15,13 +17,16 @@
             </div>
         </div>
         <div class="login-container">
-            <h1>ReAngel Login</h1>        
+            <h1>ReAngel Login</h1> 
+            <div id="error-message"></div>       
                 <form id="login-form" method="post" action="../../backend/db/login_db.php">
                     <div class="input-field">
+                        <label for="username">Username</label>
                         <input type="text" name="username" placeholder="Username" >
                     </div>
                         <div class="input-field">
                             <div class="password-field">
+                                <label for="password-field">Password</label>
                                 <input type="password" name="password" id="password-field" placeholder="Password" >
                                 <span class="eye-icon" id="toggle-password">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">

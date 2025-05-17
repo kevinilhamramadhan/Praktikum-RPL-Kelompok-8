@@ -40,6 +40,8 @@ try {
             // Set cookie dengan token
             setcookie('remember_token', $token, $expiry, "/", "", false, true);
         }
+    
+
 
         // Redirect ke homepage
         echo json_encode([
