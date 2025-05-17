@@ -1,13 +1,18 @@
 <?php
 session_start();
 require_once '../config/koneksi.php'; // koneksi ke database
+header('Content-Type: application/json');
 
 $username = $_POST['username'] ?? '';
 $password = $_POST['password'] ?? '';
 $remember = isset($_POST['remember']);
 
 if (empty($username) || empty($password)) {
-    die("Username atau password tidak boleh kosong.");
+    echo json_encode([
+        'success' => false,
+        'message' => 'Username atau password tidak boleh kosong.'
+    ]);
+    exit;
 }
 
 try {
@@ -37,12 +42,19 @@ try {
         }
 
         // Redirect ke homepage
-        header("Location: ../../frontend/app/homepage.php");
-        exit();
-    } else {
-        // Login gagal
-        echo "<script>alert('Username atau password salah!'); window.history.back();</script>";
+        echo json_encode([
+            'success' => true,
+            'redirect' => '../../frontend/app/homepage.php'
+        ]);
+        } else {
+            echo json_encode([
+                'success' => false,
+                'message' => 'Username atau password salah!'
+            ]);
     }
 } catch (PDOException $e) {
-    echo "Terjadi kesalahan: " . $e->getMessage();
+    echo json_encode([
+        'success' => false,
+        'message' => 'Terjadi kesalahan: ' . $e->getMessage()
+    ]);
 }

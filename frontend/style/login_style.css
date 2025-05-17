@@ -128,6 +128,20 @@ input[type="password"] {
     font-size: 14px;
 }
 
+.input-error {
+  border: 2px solid red !important;
+  /* Optional: agar border jelas kelihatan */
+  box-shadow: 0 0 5px red;
+}
+
+
+.button-error {
+  background-color: red;
+  color: white;
+  border: none;
+}
+
+
 .options {
     display: flex;
     justify-content: space-between;
