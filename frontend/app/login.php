@@ -16,7 +16,7 @@
         </div>
         <div class="login-container">
             <h1>ReAngel Login</h1>        
-                <form method="post" action="../../backend/app/login.php">
+                <form method="post" action="../../backend/db/login_db.php">
                     <div class="input-field">
                         <input type="text" name="username" placeholder="Username" required>
                     </div>

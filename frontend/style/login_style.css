@@ -156,18 +156,6 @@ input[type="password"] {
     font-size: 12px;
 }
 
-.signup-section {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 12px;
-    color: #888;
-}
-
-.signup-link {
-    color: #17c24d;
-    text-decoration: none;
-}
-
 /* Eye icon SVG styling */
 
 .password-field {
