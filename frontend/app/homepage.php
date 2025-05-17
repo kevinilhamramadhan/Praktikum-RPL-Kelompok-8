@@ -60,7 +60,7 @@ require '../../backend/db/homepage_db.php';
             <div class="header">
                 <h1>Dashboard</h1>
                 <div class="user-info">
-                    <span class="email">Leopoldobenavent@reangel.com</span>
+                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
                     <div class="user-icon">
                         <i class="fas fa-user"></i>
                     </div>
