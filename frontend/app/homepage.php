@@ -40,12 +40,12 @@ require '../../backend/db/homepage_db.php';
                 Inventory
             </a>
             
-            <a href="../repair_service/index.php" class="menu-item">
+            <a href="repair.php" class="menu-item">
                 <i class="fas fa-wrench"></i>
                 Repair Service
             </a>
             
-            <a href="../help/index.php" class="menu-item">
+            <a href="help.php" class="menu-item">
                 <i class="fas fa-question-circle"></i>
                 Help
             </a>
@@ -60,7 +60,7 @@ require '../../backend/db/homepage_db.php';
             <div class="header">
                 <h1>Dashboard</h1>
                 <div class="user-info">
-                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
+                    <span class="email"></span>
                     <div class="user-icon">
                         <i class="fas fa-user"></i>
                     </div>

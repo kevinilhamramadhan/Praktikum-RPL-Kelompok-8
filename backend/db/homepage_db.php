@@ -22,13 +22,13 @@ if (!isset($_SESSION['user_id'])) {
 }
 
 // menampilkan email
-$stmt = $pdo->query("SELECT email FROM admins LIMIT 1");
-$row = $stmt->fetch(PDO::FETCH_ASSOC);
+// $stmt = $pdo->query("SELECT email FROM admins LIMIT 1");
+// $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if ($row) {
-    $email = $row['email'];
-} else {
-    $email = "Email tidak ditemukan";
-}
+// if ($row) {
+//     $email = $row['email'];
+// } else {
+//     $email = "Email tidak ditemukan";
+// }
 
 ?>

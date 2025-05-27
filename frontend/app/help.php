@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Account</title>
+    <title>Help</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="../style/myaccount_style.css">
+    <link rel="stylesheet" href="../style/help_style.css">
 </head>
 <body>
-    <!-- Sidebar Navigation -->
+    <!-- Sidebar -->
     <div class="sidebar">
         <div class="logo-container">
             <img class="logo" src="../images/logo/Logo-group.png" alt="logo">
@@ -36,28 +36,26 @@
             Inventory
         </a>
         
-        <a href="repair.php"class="menu-item">
-            <i class="fas fa-cogs"></i>
+        <a href="repair.php" class="menu-item">
+            <i class="fas fa-wrench"></i>
             Repair Service
         </a>
         
-        <a href="help.php" class="menu-item">
-            <i class="fas fa-info-circle"></i>
+        <a href="help.php" class="menu-item active">
+            <i class="fas fa-question-circle"></i>
             Help
         </a>
         
-        <a href="myaccount.php" class="menu-item active">
-              <i class="fas fa-user"></i>
+        <a href="myaccount.php" class="menu-item">
+            <i class="fas fa-user"></i>
             My Account
         </a>
-
     </div>
 
-    <!-- Main Content Area -->
+    <!-- Main Content -->
     <div class="main-content">
-        <!-- Header -->
         <div class="header">
-            <h1>My Account</h1>
+            <h1>Help</h1>
             <div class="user-info">
                 <span class="email">Leopoldobenavent@reangel.com</span>
                 <div class="user-icon">
@@ -79,45 +77,48 @@
                 </div>
             </div>
 
-            <div class="account">
-                <!-- Profile Information Section -->
-                <div class="section">
-                    <h2 class="section-title">Profile Information</h2>
-                    <div class="profile-info">
-                        <div class="profile-avatar"></div>
-                        <div class="profile-details">
-                            <p id="username"></p>
-                            <p id="email"></p>
-                            <p id="jabatan"></p>
-                        </div>
-                        <button class="edit-profile-btn">Edit Profile</button>
+            <div class="help">
+                <!-- User Guide Section -->
+                <div class="help-section">
+                    <div class="section-title">
+                        <i class="fas fa-tools"></i>
+                        User Guide
                     </div>
+                    <ul class="help-list">
+                        <li><a href="#" class="help-link">Adding Sparepart Data</a></li>
+                        <li><a href="#" class="help-link">Modifying Customer Info</a></li>
+                        <li><a href="#" class="help-link">Viewing Reports</a></li>
+                    </ul>
                 </div>
 
-                <!-- Account Preferences Section -->
-                <div class="section">
-                    <h2 class="section-title">Account Preferences</h2>
-                    <div class="preference-item">
-                        <span>Notification</span>
-                        <button class="enable-btn">
-                            Enable <i class="fas fa-chevron-right"></i>
-                        </button>
+                <!-- FAQ Section -->
+                <div class="help-section">
+                    <div class="section-title">
+                        <i class="fas fa-question-circle"></i>
+                        FAQ
                     </div>
-                    <div class="preference-item">
-                        <span>Activity</span>
-                    </div>
-                    <div class="preference-item">
-                        <span>Switch Account</span>
-                        <button class="logout-btn">Logout</button>
-                    </div>
+                    <ul class="help-list">
+                        <li><a href="#" class="help-link">How Do I Reset My Password?</a></li>
+                        <li><a href="#" class="help-link">Why Can't I See My Data</a></li>
+                        <li><a href="#" class="help-link">How To Fix A Stock Error?</a></li>
+                    </ul>
                 </div>
 
-                
+                <!-- Contact Us Section -->
+                <div class="help-section">
+                    <div class="section-title">
+                        <i class="fas fa-envelope"></i>
+                        Contact Us
+                    </div>
+                    <ul class="help-list">
+                        <li><a href="#" class="help-link">E-mail Us</a></li>
+                        <li><a href="#" class="help-link">Report A Bug</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Simple JavaScript for toggling features if needed -->
-    <script src ="../script/myaccount_script.js"></script>
+    <script src="../script/help_script.js"></script>
 </body>
 </html>
