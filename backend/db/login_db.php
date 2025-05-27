@@ -41,7 +41,17 @@ try {
             setcookie('remember_token', $token, $expiry, "/", "", false, true);
         }
     
+    // Ambil data profil setelah login berhasil
+    $profilStmt = $pdo->prepare("SELECT * FROM profil WHERE admin_id = ?");
+    $profilStmt->execute([$user['id']]);
+    $profil = $profilStmt->fetch(PDO::FETCH_ASSOC);
 
+    if ($profil) {
+        $_SESSION['profil_id'] = $profil['id']; // ID dari tabel profil
+        $_SESSION['email'] = $profil['email'];
+        $_SESSION['employment'] = $profil['employment'];
+        $_SESSION['photo'] = $profil['photo'];
+    }
 
         // Redirect ke homepage
         echo json_encode([

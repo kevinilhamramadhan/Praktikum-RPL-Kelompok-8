@@ -1,3 +1,7 @@
+<?php
+include '../../backend/db/myaccount.php';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -55,11 +59,10 @@
 
     <!-- Main Content Area -->
     <div class="main-content">
-        <!-- Header -->
         <div class="header">
             <h1>My Account</h1>
             <div class="user-info">
-                <span class="email">Leopoldobenavent@reangel.com</span>
+                <span class="email"><?php echo htmlspecialchars($email); ?></span>
                 <div class="user-icon">
                     <i class="fas fa-user"></i>
                 </div>
@@ -84,14 +87,35 @@
                 <div class="section">
                     <h2 class="section-title">Profile Information</h2>
                     <div class="profile-info">
-                        <div class="profile-avatar"></div>
-                        <div class="profile-details">
-                            <p id="username"></p>
-                            <p id="email"></p>
-                            <p id="jabatan"></p>
-                        </div>
-                        <button class="edit-profile-btn">Edit Profile</button>
+
+                                <div class="profile-avatar">
+                                    <img src="<?php echo htmlspecialchars($photo); ?>" alt="Profile Photo" style="width:100px; height:100px; border-radius:50%;">
+                                </div>
+                                <div class="profile-details">
+                                    <p id="username"><?php echo htmlspecialchars($username); ?></p>
+                                    <p id="email"><?php echo htmlspecialchars($email); ?></p>
+                                    <p id="employment"><?php echo htmlspecialchars($employment); ?></p>
+                                </div>
+                        <button type="button" id="edit-profile-btn" class="edit-profile-btn">Edit Profile</button>
+
                     </div>
+                                                                    <!-- Edit Profile Form (hidden by default) -->
+                        <form id="edit-profile-form" style="display:none;" method="POST" action="../../backend/db/myaccount_edit.php" enctype="multipart/form-data">
+                            <label for="username-input">Username:</label><br>
+                            <input type="text" id="username-input" name="username" value="<?php echo htmlspecialchars($username); ?>" required><br>
+
+                            <label for="email-input">Email:</label><br>
+                            <input type="email" id="email-input" name="email" value="<?php echo htmlspecialchars($email); ?>" required><br>
+
+                            <label for="employment-input">Employment:</label><br>
+                            <input type="text" id="employment-input" name="employment" value="<?php echo htmlspecialchars($employment); ?>"><br>
+
+                            <label for="photo-input">Profile Photo:</label><br>
+                            <input type="file" id="photo-input" name="photo" accept="image/*"><br><br>
+
+                            <button type="submit">Save Changes</button>
+                            <button type="button" id="cancel-edit-btn">Cancel</button>
+                        </form>
                 </div>
 
                 <!-- Account Preferences Section -->

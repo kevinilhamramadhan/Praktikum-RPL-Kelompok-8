@@ -1,23 +1,22 @@
 <?php
 session_start();
-header('Content-Type: application/json');
-include '../config/koneksi.php';
+require_once(__DIR__ . '/../config/koneksi.php');  // pastikan di file ini ada $pdo = new PDO(...);
 
-$admin_id = isset($_SESSION['admin_id']) ? (int)$_SESSION['admin_id'] : 0;
-
-if ($admin_id === 0) {
-    echo json_encode(['error' => 'Not logged in']);
+if (!isset($_SESSION['username'])) {
+    header("Location: login_db.php");
     exit;
 }
 
-$sql = "SELECT username, email, jabatan, photo FROM admins WHERE id = $admin_id";
-$result = $conn->query($sql);
+$username = $_SESSION['username'];
 
-if ($result && $result->num_rows > 0) {
-    $admin = $result->fetch_assoc();
-    $admin['photo'] = $admin['photo'] ? 'uploads/' . $admin['photo'] : '../assets/Background.png';
-    echo json_encode($admin);
-} else {
-    echo json_encode(['error' => 'User not found']);
-}
-?>
+$sql = "SELECT username, email, employment, photo FROM profil WHERE username = :username";
+$stmt = $pdo->prepare($sql);
+$stmt->bindParam(':username', $username, PDO::PARAM_STR);
+$stmt->execute();
+
+$user = $stmt->fetch(PDO::FETCH_ASSOC);
+
+$photo = !empty($user['photo']) ? $user['photo'] : '../../frontend/images/icons/avatar.png';
+$email = !empty($user['email']) ? $user['email'] : 'Email not set';
+$employment = !empty($user['employment']) ? $user['employment'] : 'Employment info not set';
+
