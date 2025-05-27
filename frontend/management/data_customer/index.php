@@ -343,7 +343,7 @@
             <img class="logo" src="../../frontend/images/logo/Logo-group.png" alt="logo">
         </div>
         
-        <a href="../../home_page/index.php" class="menu-item">
+        <a href="../../app/homepage.php" class="menu-item">
             <i class="fas fa-home"></i>
             Home
         </a>
@@ -365,17 +365,17 @@
             Inventory
         </a>
         
-        <a href="../../repair_service/index.php" class="menu-item">
+        <a href="../../app/repair.php" class="menu-item">
             <i class="fas fa-wrench"></i>
             Repair Service
         </a>
         
-        <a href="../../help/index.php" class="menu-item">
+        <a href="../../app/help.php" class="menu-item">
             <i class="fas fa-question-circle"></i>
             Help
         </a>
         
-        <a href="../../my_account/index.php" class="menu-item">
+        <a href="../../app/myaccount.php" class="menu-item">
             <i class="fas fa-user"></i>
             My Account
         </a>

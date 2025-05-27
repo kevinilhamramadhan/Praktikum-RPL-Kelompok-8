@@ -1,4 +1,3 @@
-
 // Simple JavaScript for interactive features
 document.addEventListener('DOMContentLoaded', function() {
     // Submenu toggle

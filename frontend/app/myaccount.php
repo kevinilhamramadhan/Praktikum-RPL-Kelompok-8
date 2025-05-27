@@ -31,7 +31,7 @@
             </div>
         </div>
         
-        <a href="inventory.php" class="menu-item">
+        <a href="../inventory/index.php" class="menu-item">
             <i class="fas fa-boxes"></i>
             Inventory
         </a>
