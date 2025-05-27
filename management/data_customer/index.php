@@ -340,7 +340,7 @@
 <body>
     <div class="sidebar">
         <div class="logo-container">
-            <img class="logo" src="../../images/logo/Logo-group.png" alt="logo">
+            <img class="logo" src="../../frontend/images/logo/Logo-group.png" alt="logo">
         </div>
         
         <a href="../../home_page/index.php" class="menu-item">
