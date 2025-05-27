@@ -26,21 +26,22 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // Search functionality
-    const searchInput = document.querySelector('.search-input');
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const rows = document.querySelectorAll('.service-table tbody tr');
-        
+    document.getElementById("searchInput").addEventListener("input", function () {
+        const filter = this.value.toLowerCase();
+        const rows = document.querySelectorAll("#historyTableBody tr");
+
         rows.forEach(row => {
-            const code = row.querySelector('td:first-child').textContent.toLowerCase();
-            const serviceName = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
-            const description = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
-            
-            if (code.includes(searchTerm) || serviceName.includes(searchTerm) || description.includes(searchTerm)) {
-                row.style.display = '';
-            } else {
-                row.style.display = 'none';
-            }
+            const cells = row.querySelectorAll("td");
+            let match = false;
+
+            // Cek setiap kolom untuk kecocokan teks
+            cells.forEach(cell => {
+                if (cell.textContent.toLowerCase().includes(filter)) {
+                    match = true;
+                }
+            });
+
+            row.style.display = match ? "" : "none";
         });
     });
 });

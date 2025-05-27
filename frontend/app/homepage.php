@@ -1,5 +1,6 @@
 <?php
 require '../../backend/db/homepage_db.php';
+
 ?>
 
 <!DOCTYPE html>
@@ -18,7 +19,7 @@ require '../../backend/db/homepage_db.php';
                 <img class="logo" src="../images/logo/Logo-group.png" alt="logo">
             </div>
             
-            <a href="../home_page/index.php" class="menu-item active">
+            <a href="homepage.php" class="menu-item active">
                 <i class="fas fa-home"></i>
                 Home
             </a>
@@ -30,7 +31,7 @@ require '../../backend/db/homepage_db.php';
                     <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
                 </a>
                 <div class="submenu">
-                    <a href="../management/data_customer/index.php" class="submenu-item">Data Constumer Management</a>
+                    <a href="data_customer.php" class="submenu-item">Data Constumer Management</a>
                     <a href="../management/data_sparepart/index.php" class="submenu-item">Data Sparepart Management</a>
                 </div>
             </div>
@@ -69,22 +70,22 @@ require '../../backend/db/homepage_db.php';
             <div class="content">
                 <div class="stats">
                     <div class="stat-card total">
-                        <div class="number">3</div>
+                        <div class="number"><?php echo $total; ?></div>
                         <div class="label">Total Notes</div>
                     </div>
                     <div class="stat-card progress">
-                        <div class="number">2</div>
+                        <div class="number"><?php echo $in_progress; ?></div>
                         <div class="label">In Progress</div>
                     </div>
                     <div class="stat-card completed">
-                        <div class="number">1</div>
-                        <div class="label">Completed</div>
+                        <div class="number"><?php echo $completed; ?></div>
+                        <div class="label">Complete</div>
                     </div>
                 </div>
                 
                 <div class="search-bar">
                     <div class="search-container">
-                        <input type="text" placeholder="Search" class="search-input">
+                        <input type="text" placeholder="Search" class="search-input" id="searchInput">
                         <button class="search-btn">
                             <i class="fas fa-search"></i>
                         </button>
@@ -105,46 +106,27 @@ require '../../backend/db/homepage_db.php';
                                 <th>Progress</th>
                                 <th>Date of Last Visit</th>
                                 <th>Repair Service</th>
-                                <th>Action</th>
+
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="notesTableBody">
+                            <?php $no = 1; foreach ($notes as $note): ?>
                             <tr>
-                                <td>1</td>
-                                <td>Gallirei</td>
-                                <td>+49xxxxx</td>
-                                <td><span class="status in-progress">In Progress...</span></td>
-                                <td>21/01/2025</td>
-                                <td>FairyFix Engine Check</td>
+                                <td><?= $no++; ?></td>
+                                <td><?= htmlspecialchars($note['name']); ?></td>
+                                <td><?= htmlspecialchars($note['contact']); ?></td>
                                 <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
+                                    <?php if (strtolower($note['progress']) === 'complete'): ?>
+                                        <span class="status completed">Completed</span>
+                                    <?php else: ?>
+                                        <span class="status in-progress">In Progress...</span>
+                                    <?php endif; ?>
                                 </td>
+                                <td><?= date('d/m/Y', strtotime($note['date_last_visit'])); ?></td>
+                                <td><?= htmlspecialchars($note['repair_service']); ?></td>
+
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Dijkstraa</td>
-                                <td>+31xxxxx</td>
-                                <td><span class="status in-progress">In Progress...</span></td>
-                                <td>16/01/2025</td>
-                                <td>SparkFly Brake Restore</td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Polo</td>
-                                <td>+31xxxxx</td>
-                                <td><span class="status completed">Completed</span></td>
-                                <td>12/01/2025</td>
-                                <td>GreenGlow Cooling Service</td>
-                                <td>
-                                    <button class="action-btn edit"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
+                            <?php endforeach; ?>
                         </tbody>
                     </table>
                 </div>

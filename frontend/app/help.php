@@ -26,7 +26,7 @@
                 <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
             </a>
             <div class="submenu">
-                <a href="../management/data_customer/index.php" class="submenu-item">Data Constumer Management</a>
+                <a href="data_customer.php" class="submenu-item">Data Constumer Management</a>
                 <a href="../management/data_sparepart/index.php" class="submenu-item">Data Sparepart Management</a>
             </div>
         </div>

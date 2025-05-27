@@ -13,7 +13,7 @@
             <img class="logo" src="../../frontend/images/logo/Logo-group.png" alt="logo">
         </div>
         
-        <a href="../../app/homepage.php" class="menu-item">
+        <a href="homepage.php" class="menu-item">
             <i class="fas fa-home"></i>
             Home
         </a>
@@ -25,27 +25,27 @@
                 <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
             </a>
             <div class="submenu">
-                <a href="../../management/data_customer/index.php" class="submenu-item active">Data Consumer Management</a>
-                <a href="../../management/data_sparepart/index.php" class="submenu-item">Data Sparepart Management</a>
+                <a href="data_customer.php" class="submenu-item active">Data Consumer Management</a>
+                <a href="../management/data_sparepart/index.php" class="submenu-item">Data Sparepart Management</a>
             </div>
         </div>
         
-        <a href="../../inventory/index.php" class="menu-item">
+        <a href="../inventory/index.php" class="menu-item">
             <i class="fas fa-boxes"></i>
             Inventory
         </a>
         
-        <a href="../../app/repair.php" class="menu-item">
+        <a href="repair.php" class="menu-item">
             <i class="fas fa-wrench"></i>
             Repair Service
         </a>
         
-        <a href="../../app/help.php" class="menu-item">
+        <a href="help.php" class="menu-item">
             <i class="fas fa-question-circle"></i>
             Help
         </a>
         
-        <a href="../../app/myaccount.php" class="menu-item">
+        <a href="myaccount.php" class="menu-item">
             <i class="fas fa-user"></i>
             My Account
         </a>

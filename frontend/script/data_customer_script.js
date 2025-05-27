@@ -20,13 +20,6 @@ const repairServiceField = document.getElementById('repairService');
 const descriptionField = document.getElementById('description');
 const progressField = document.getElementById('progress');
 
-
-
-
-
-
-
-
 // Event listeners
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -86,6 +79,7 @@ async function loadCustomersFromDatabase() {
         if (result.success) {
             result.data.forEach((customer) => {
                 addNewRowToTable({
+                    id: customer.id,
                     name: customer.name,
                     contact: customer.contact,
                     address: customer.address || '',
@@ -192,10 +186,29 @@ async function handleSaveCustomer() {
     };
     
     if (isEditMode) {
-        // Handle edit mode (update existing row in table)
-        updateTableRow(currentEditingRow, customerData);
-        closeModal();
-        showSuccessMessage('Customer updated successfully');
+        const id = currentEditingRow.getAttribute('data-id');
+        customerData.id = id;
+
+        try {
+            const response = await fetch('../../backend/db/update_customer.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(customerData)
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                updateTableRow(currentEditingRow, customerData);
+                closeModal();
+                showSuccessMessage('Customer updated successfully');
+            } else {
+                alert('Error updating customer: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Error updating customer:', error);
+            alert('Error updating customer. Please try again.');
+        }
     } else {
         // Handle add mode (send to server)
         try {
@@ -252,6 +265,7 @@ function addNewRowToTable(customerData) {
     const statusText = customerData.progress === 'complete' ? 'Complete' : 'In Progress';
     
     const newRow = document.createElement('tr');
+    newRow.setAttribute('data-id', customerData.id || '');
     newRow.innerHTML = `
         <td>${rowCount}.</td>
         <td>${customerData.name}</td>
@@ -324,12 +338,31 @@ function handleEditClick(e) {
 }
 
 // Handle delete button click
-function handleDeleteClick(e) {
+async function handleDeleteClick(e) {
     if (confirm('Are you sure you want to delete this customer?')) {
         const row = e.target.closest('tr');
-        row.remove();
-        updateRowNumbers();
-        showSuccessMessage('Customer deleted successfully');
+        const id = row.getAttribute('data-id');
+
+        try {
+            const response = await fetch('../../backend/db/delete_customer.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                row.remove();
+                updateRowNumbers();
+                showSuccessMessage('Customer deleted successfully');
+            } else {
+                alert('Failed to delete: ' + result.message);
+            }
+        } catch (error) {
+            console.error('Delete error:', error);
+            alert('Error deleting customer. Please try again.');
+        }
     }
 }
 

@@ -1,4 +1,3 @@
-// JavaScript untuk interaksi dasar
 document.addEventListener('DOMContentLoaded', function() {
     // Submenu toggle
     const hasSubmenu = document.querySelector('.has-submenu');
@@ -11,41 +10,30 @@ document.addEventListener('DOMContentLoaded', function() {
         submenu.classList.toggle('submenu-open');
         submenuIcon.classList.toggle('rotate-icon');
     });
-    
-    // Simulasi pencarian
-    const searchInput = document.querySelector('.search-input');
-    const searchBtn = document.querySelector('.search-btn');
-    
-    searchBtn.addEventListener('click', function() {
-        const searchValue = searchInput.value.toLowerCase();
-        // Di sini biasanya akan memanggil API atau melakukan filter
-        alert('Mencari: ' + searchValue);
-    });
-    
-    // Simulasi tombol aksi
-    const editButtons = document.querySelectorAll('.action-btn.edit');
-    const deleteButtons = document.querySelectorAll('.action-btn.delete');
-    
-    editButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const name = row.cells[1].textContent;
-            alert('Edit entry: ' + name);
-        });
-    });
-    
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const name = row.cells[1].textContent;
-            if(confirm('Apakah Anda yakin ingin menghapus data ' + name + '?')) {
-                // Di sini biasanya akan memanggil API untuk delete
-                row.remove();
-                updateStats();
+
+    // Pencarian
+document.getElementById("searchInput").addEventListener("input", function () {
+    const filter = this.value.toLowerCase();
+    const rows = document.querySelectorAll("#notesTableBody tr");
+
+    rows.forEach(row => {
+        const cells = row.querySelectorAll("td");
+        let match = false;
+
+        cells.forEach(cell => {
+            if (cell.textContent.toLowerCase().includes(filter)) {
+                match = true;
             }
         });
+
+        row.style.display = match ? "" : "none";
     });
+});
+
+
     
+    // Simulasi tombol aksi
+
     function updateStats() {
         const totalRows = document.querySelectorAll('.notes-table tbody tr').length;
         const inProgressRows = document.querySelectorAll('.status.in-progress').length;
@@ -55,4 +43,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelector('.stat-card.progress .number').textContent = inProgressRows;
         document.querySelector('.stat-card.completed .number').textContent = completedRows;
     }
+    
+    updateStats(); // Jangan lupa panggil fungsi ini agar angka stats terupdate
 });
