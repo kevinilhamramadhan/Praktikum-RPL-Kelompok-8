@@ -1,3 +1,13 @@
+<?php
+require_once '../../backend/config/koneksi.php';  // koneksi PDO
+
+try {
+    $stmt = $pdo->query("SELECT code, service_name, description FROM repair");
+    $services = $stmt->fetchAll();
+} catch (PDOException $e) {
+    die("Error fetching data: " . $e->getMessage());
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -78,6 +88,13 @@
                 </div>
             </div>
 
+            <!-- Add Button -->
+            <div class="add-button">
+                <a href="add_service.php" style="text-decoration: none; color: inherit;">
+                    <i class="fas fa-plus"></i> Add Service
+                </a>
+            </div>
+
             <!-- Service Table -->
             <table class="service-table">
                 <thead>
@@ -89,66 +106,34 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <?php foreach ($services as $service): ?>
                     <tr>
-                        <td>RS001</td>
-                        <td>FairyFix Engine Check</td>
-                        <td>Pemeriksaan & penyetelan mesin untuk performa optimal</td>
+                        <td><?= htmlspecialchars($service['code']) ?></td>
+                        <td><?= htmlspecialchars($service['service_name']) ?></td>
+                        <td><?= htmlspecialchars($service['description']) ?></td>
                         <td>
                             <div class="action-buttons">
-                                <button class="action-button edit-button">
+                                <!-- Tombol Edit  -->
+                                <a href="edit_service.php?code=<?= urlencode($service['code']) ?>" class="action-button edit-button" title="Edit">
                                     <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-button delete-button">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
+                                </a>
+
+                                <!-- Tombol Delete  -->
+                                <form action="delete_service.php" method="post" style="display:inline;" onsubmit="return confirm('Yakin ingin menghapus layanan ini?');">
+                                    <input type="hidden" name="code" value="<?= htmlspecialchars($service['code']) ?>" />
+                                    <button type="submit" class="action-button delete-button" title="Delete">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>  
                         </td>
                     </tr>
+                    <?php endforeach; ?>
+                    <?php if (empty($services)): ?>
                     <tr>
-                        <td>RS002</td>
-                        <td>SparkFly Brake Restore</td>
-                        <td>Perbaikan dan penggantian sistem rem kendaraan</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-button edit-button">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-button delete-button">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
+                        <td colspan="4">No services found.</td>
                     </tr>
-                    <tr>
-                        <td>RS003</td>
-                        <td>GreenGrip Suspension Care</td>
-                        <td>Menstabilkan suspensi dan sistem kemudi agar nyaman & aman</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-button edit-button">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-button delete-button">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>RS004</td>
-                        <td>LightLeaf Electrical Scan</td>
-                        <td>Diagnosis sistem kelistrikan secara menyeluruh</td>
-                        <td>
-                            <div class="action-buttons">
-                                <button class="action-button edit-button">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="action-button delete-button">
-                                    <i class="fas fa-trash"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>

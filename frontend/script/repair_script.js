@@ -13,28 +13,17 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Add click event to edit buttons
-    const editButtons = document.querySelectorAll('.edit-button');
-    editButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
+    const serviceTable = document.querySelector('.service-table tbody');
+    serviceTable.addEventListener('click', function(e) {
+        if (e.target.closest('.edit-button')) {
+            const row = e.target.closest('tr');
             const code = row.querySelector('td:first-child').textContent;
             const serviceName = row.querySelector('td:nth-child(2)').textContent;
             alert('Edit service: ' + code + ' - ' + serviceName);
-        });
+        }
     });
 
-    // Add click event to delete buttons
-    const deleteButtons = document.querySelectorAll('.delete-button');
-    deleteButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            const code = row.querySelector('td:first-child').textContent;
-            const serviceName = row.querySelector('td:nth-child(2)').textContent;
-            if (confirm('Are you sure you want to delete service: ' + code + ' - ' + serviceName + '?')) {
-                row.remove();
-            }
-        });
-    });
+
 
     // Search functionality
     const searchInput = document.querySelector('.search-input');
