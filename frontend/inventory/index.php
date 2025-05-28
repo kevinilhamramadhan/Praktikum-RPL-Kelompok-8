@@ -35,6 +35,7 @@ $items = getAllItems();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventory Management</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@700&display=swap');
         :root {
             --primary-color: #4CAF50;
             --secondary-color: #212121;
@@ -164,8 +165,9 @@ $items = getAllItems();
         }
         
         .header h1 {
+            font-family: 'Oxanium', sans-serif;
             color: white;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: normal;
         }
         

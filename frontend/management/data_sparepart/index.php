@@ -27,6 +27,7 @@ $fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
     <title>Data Sparepart Management</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Oxanium:wght@700&display=swap');
         * {
             margin: 0;
             padding: 0;
@@ -77,8 +78,9 @@ $fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
         }
         
         .header h1 {
+            font-family: 'Oxanium', sans-serif;
             color: white;
-            font-size: 28px;
+            font-size: 30px;
             font-weight: normal;
         }
         

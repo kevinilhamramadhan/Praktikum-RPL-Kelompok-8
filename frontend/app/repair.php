@@ -58,7 +58,7 @@ $fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
     <!-- Main Content -->
     <div class="main-content">
         <div class="header">
-            <h1>Repair History</h1>
+            <h1>History Service</h1>
                 <div class="user-info">
                     <span class="email"><?php echo htmlspecialchars($email); ?></span>
                     <div class="user-icon">
