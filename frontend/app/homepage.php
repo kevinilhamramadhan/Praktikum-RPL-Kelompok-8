@@ -42,8 +42,8 @@ require '../../backend/db/homepage_db.php';
             </a>
             
             <a href="repair.php" class="menu-item">
-                <i class="fas fa-wrench"></i>
-                Repair Service
+                <i class="fas fa-cogs"></i>
+                History Service
             </a>
             
             <a href="help.php" class="menu-item">

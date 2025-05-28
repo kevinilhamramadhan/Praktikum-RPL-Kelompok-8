@@ -42,7 +42,7 @@ include '../../backend/db/myaccount.php';
         
         <a href="repair.php"class="menu-item">
             <i class="fas fa-cogs"></i>
-            Repair Service
+            History Service
         </a>
         
         <a href="help.php" class="menu-item">
