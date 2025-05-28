@@ -54,8 +54,8 @@ body {
 .menu-item:hover, .menu-item.active {
     background-color: #2a2a2a;
     color: #00a651;
-    border-top: 2px solid #00a651;
-    border-bottom: 2px solid #00a651;
+    border-left: 4px solid #00a651;
+    
 }
 
 .menu-item.active {
