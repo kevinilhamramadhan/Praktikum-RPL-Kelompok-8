@@ -1,4 +1,5 @@
 <?php
+session_start();
 require_once 'includes/db_connect.php';
 require_once 'includes/functions.php';
 $items = getAllItems();
@@ -6,6 +7,21 @@ $items = getAllItems();
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+
+$adminId = $_SESSION['admin_id'];
+
+// Prepare statement
+$stmt = mysqli_prepare($conn, "SELECT email, photo FROM profil WHERE admin_id = ?");
+mysqli_stmt_bind_param($stmt, "i", $adminId); // "i" untuk integer, ganti sesuai tipe data admin_id
+
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$profil = mysqli_fetch_assoc($result);
+
+// Set nilai default jika data tidak ada
+$email = !empty($profil['email']) ? $profil['email'] : 'Email not set';
+$fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
 ?>
 
 <?php
@@ -220,7 +236,7 @@ $items = getAllItems();
 
         .inventory-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
             gap: 20px;
             overflow-y: auto;
             height: 75vh;
@@ -228,28 +244,50 @@ $items = getAllItems();
         }
 
         .inventory-card {
-            background-color: #212121;
-            border-radius: 8px;
+            background-color: 'transparant';
+            border-radius: 12px;
             padding: 20px;
             position: relative;
-            border: 1px solid #444;
+            border: 3px solid #444;
+            display: flex;
+            flex-direction: column;
+            height: 400px;
+            width : 250px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .inventory-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.3);
         }
 
         .inventory-card.low-stock {
-            border: 1px solid var(--warning-color);
+            border: 3px solid var(--warning-color);
         }
 
         .inventory-card.out-of-stock {
-            border: 1px solid var(--danger-color);
+            border: 3px solid var(--danger-color);
+        }
+
+        .inventory-card.normal {
+            border: 3px solid var(--primary-color);
         }
 
         .close-icon {
             position: absolute;
-            top: 10px;
-            right: 10px;
+            top: 12px;
+            right: 12px;
             color: #555;
             cursor: pointer;
-            font-size: 18px;
+            font-size: 20px;
+            z-index: 10;
+            padding: 5px;
+            border-radius: 50%;
+            transition: background-color 0.2s ease;
+        }
+
+        .close-icon:hover {
+            background-color: rgba(255,255,255,0.1);
         }
 
         .inventory-card.out-of-stock .close-icon {
@@ -264,21 +302,39 @@ $items = getAllItems();
             color: var(--primary-color);
         }
 
-        .product-image {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            display: block;
-            object-fit: contain;
+        .product-image-container {
+            width: 150px;
+            height: 200px;
+            margin-bottom: 15px;
+            margin: 40px auto 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             background-color: #fff;
             border-radius: 8px;
+            overflow: hidden;
+            
+        }
+
+        .product-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-name {
             font-size: 18px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-align: center;
+            min-height: 22px;
+            line-height: 1.2;
         }
 
         .product-name.out-of-stock {
@@ -293,18 +349,29 @@ $items = getAllItems();
             color: var(--primary-color);
         }
 
+        .product-details {
+            flex: 1;
+            margin-bottom: 15px;
+        }
+
         .product-details p {
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
         }
 
         .product-details span {
             font-weight: bold;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-word;
         }
 
         .stock-value {
             font-weight: bold;
+            font-size: 16px;
         }
 
         .stock-value.out-of-stock {
@@ -326,34 +393,55 @@ $items = getAllItems();
             border-radius: 5px;
             text-align: center;
             position: absolute;
-            top: 60px;
+            top: 50px;
             left: 50%;
             transform: translateX(-50%);
             font-weight: bold;
-            font-size: 14px;
+            font-size: 12px;
+            z-index: 5;
         }
 
         .edit-button {
             width: 100%;
-            padding: 10px;
+            padding: 12px;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             color: white;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 15px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            margin-top: auto;
+        }
+
+        .edit-button:hover {
+            transform: translateY(-1px);
         }
 
         .edit-button.normal {
             background-color: var(--primary-color);
         }
 
+        .edit-button.normal:hover {
+            background-color: #45a049;
+        }
+
         .edit-button.low-stock {
             background-color: var(--warning-color);
         }
 
+        .edit-button.low-stock:hover {
+            background-color: #e6a800;
+        }
+
         .edit-button.out-of-stock {
             background-color: var(--danger-color);
+        }
+
+        .edit-button.out-of-stock:hover {
+            background-color: #da190b;
         }
 
         .add-button {
@@ -371,6 +459,20 @@ $items = getAllItems();
             font-size: 30px;
             cursor: pointer;
             box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .add-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .no-items {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: #ccc;
+            font-size: 18px;
         }
 
     </style> 
@@ -379,7 +481,7 @@ $items = getAllItems();
 <body>
     <div class="sidebar">
         <div class="logo-container">
-            <img class="logo" src="../frontend/images/logo/Logo-group.png" alt="logo">
+            <img class="logo" src="../images/logo/Logo-group.png" alt="logo">
         </div>
         
         <a href="../app/homepage.php" class="menu-item">
@@ -394,7 +496,7 @@ $items = getAllItems();
                 <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
             </a>
             <div class="submenu">
-                <a href="../management/data_customer/index.php" class="submenu-item">Data Constumer Management</a>
+                <a href="../app/data_customer.php" class="submenu-item">Data Constumer Management</a>
                 <a href="../management/data_sparepart/index.php" class="submenu-item">Data Sparepart Management</a>
             </div>
         </div>
@@ -406,7 +508,7 @@ $items = getAllItems();
         
         <a href="../app/repair.php" class="menu-item">
             <i class="fas fa-wrench"></i>
-            Repair Service
+            History Service
         </a>
         
         <a href="../app/help.php" class="menu-item">
@@ -423,12 +525,16 @@ $items = getAllItems();
     <div class="main-content">
         <div class="header">
             <h1>Inventory</h1>
-            <div class="user-info">
-                <span class="email">Leopoldobenavent@reangel.com</span>
-                <div class="user-icon">
-                    <i class="fas fa-user"></i>
+                <div class="user-info">
+                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
+                    <div class="user-icon">
+                        <?php if ($fotoProfil): ?>
+                            <img src="../../backend/profile_photos/<?php echo htmlspecialchars($fotoProfil); ?>" alt="Profile Photo" style="width: 35px; height: 35px; border-radius: 50%;">
+                        <?php else: ?>
+                            <i class="fas fa-user"></i>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="content">
             <div class="search-bar">
@@ -438,9 +544,7 @@ $items = getAllItems();
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div class="settings-icon">
-                    <i class="fas fa-sliders-h"></i>
-                </div>
+                
             </div>
 
             <div class="inventory-grid">
@@ -461,24 +565,28 @@ $items = getAllItems();
                         <div class="inventory-card <?php echo $stockClass; ?>">
                             <div class="close-icon" data-id="<?php echo $item['id']; ?>"><i class="fas fa-times"></i></div>
                             
-                            <?php if (!empty($item['image'])): ?>
-                                <img src="inventory/images/products/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
-                            <?php else: ?>
-                                <img src="https://via.placeholder.com/100" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
-                            <?php endif; ?>
+                            <div class="product-image-container">
+                                <?php if (!empty($item['image'])): ?>
+                                    <img src="inventory/images/products/<?php echo htmlspecialchars($item['image']); ?>" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
+                                <?php else: ?>
+                                    <img src="https://via.placeholder.com/100" alt="<?php echo htmlspecialchars($item['name']); ?>" class="product-image">
+                                <?php endif; ?>
+                            </div>
                             
                             <?php if ($stockClass === 'out-of-stock'): ?>
                                 <div class="out-of-stock-label">Out of Stock</div>
                             <?php endif; ?>
                             
-                            <h3 class="product-name <?php echo $stockClass; ?>"><?php echo htmlspecialchars($item['name']); ?></h3>
-                            <div class="product-details">
-                                <p>Code: <span><?php echo htmlspecialchars($item['code'] ?? 'N/A'); ?></span></p>
-                                <p>Brand: <span><?php echo htmlspecialchars($item['brand'] ?? 'N/A'); ?></span></p>
-                                <p>Location: <span><?php echo htmlspecialchars($item['location'] ?? 'N/A'); ?></span></p>
-                                <p>Stock: <span class="stock-value <?php echo $stockClass; ?>"><?php echo $item['stock']; ?></span></p>
+                            <div class="product-info">
+                                <h3 class="product-name <?php echo $stockClass; ?>"><?php echo htmlspecialchars($item['name']); ?></h3>
+                                <div class="product-details">
+                                    <p>Code: <span><?php echo htmlspecialchars($item['code'] ?? 'N/A'); ?></span></p>
+                                    <p>Brand: <span><?php echo htmlspecialchars($item['brand'] ?? 'N/A'); ?></span></p>
+                                    <p>Location: <span><?php echo htmlspecialchars($item['location'] ?? 'N/A'); ?></span></p>
+                                    <p>Stock: <span class="stock-value <?php echo $stockClass; ?>"><?php echo $item['stock']; ?></span></p>
+                                </div>
+                                <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="edit-button <?php echo $stockClass; ?>">Edit</a>
                             </div>
-                            <a href="edit_item.php?id=<?php echo $item['id']; ?>" class="edit-button <?php echo $stockClass; ?>">Edit</a>
                         </div>
                     <?php endforeach; ?>
                 <?php endif; ?>
@@ -539,5 +647,3 @@ $items = getAllItems();
     </script>
 </body>
 </html>
-
-

@@ -46,13 +46,14 @@ try {
     die();
 }
 // menampilkan email
-// $stmt = $pdo->query("SELECT email FROM admins LIMIT 1");
-// $row = $stmt->fetch(PDO::FETCH_ASSOC);
+$adminId = $_SESSION['admin_id'];
+$query = "SELECT email, photo FROM profil WHERE admin_id = ?";
+$stmt = $pdo->prepare($query);
+$stmt->execute([$adminId]);
+$profil = $stmt->fetch(PDO::FETCH_ASSOC);
 
-// if ($row) {
-//     $email = $row['email'];
-// } else {
-//     $email = "Email tidak ditemukan";
-// }
+// Set nilai default jika data tidak ada
+$email = !empty($profil['email']) ? $profil['email'] : 'Email not set';
+$fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
 
 ?>

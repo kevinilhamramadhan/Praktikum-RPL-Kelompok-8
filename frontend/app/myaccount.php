@@ -63,24 +63,17 @@ include '../../backend/db/myaccount.php';
             <h1>My Account</h1>
             <div class="user-info">
                 <span class="email"><?php echo htmlspecialchars($email); ?></span>
-                <div class="user-icon">
+            <div class="user-icon">
+                <?php if ($fotoProfil): ?>
+                    <img src="../../backend/profile_photos/<?php echo htmlspecialchars($fotoProfil); ?>" alt="Profile Photo" style="width: 35px; height: 35px; border-radius: 50%;">
+                <?php else: ?>
                     <i class="fas fa-user"></i>
-                </div>
+                <?php endif; ?>
+            </div>
             </div>
         </div>
         <div class="content">
-            <!-- Search Bar -->
-            <div class="search-bar">
-                <div class="search-container">
-                    <input type="text" placeholder="Search" class="search-input">
-                    <button class="search-btn">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                <div class="settings-icon">
-                    <i class="fas fa-sliders-h"></i>
-                </div>
-            </div>
+
 
             <div class="account">
                 <!-- Profile Information Section -->
@@ -99,23 +92,42 @@ include '../../backend/db/myaccount.php';
                         <button type="button" id="edit-profile-btn" class="edit-profile-btn">Edit Profile</button>
 
                     </div>
-                                                                    <!-- Edit Profile Form (hidden by default) -->
-                        <form id="edit-profile-form" style="display:none;" method="POST" action="../../backend/db/myaccount_edit.php" enctype="multipart/form-data">
-                            <label for="username-input">Username:</label><br>
-                            <input type="text" id="username-input" name="username" value="<?php echo htmlspecialchars($username); ?>" required><br>
 
-                            <label for="email-input">Email:</label><br>
-                            <input type="email" id="email-input" name="email" value="<?php echo htmlspecialchars($email); ?>" required><br>
 
-                            <label for="employment-input">Employment:</label><br>
-                            <input type="text" id="employment-input" name="employment" value="<?php echo htmlspecialchars($employment); ?>"><br>
+                </div>
+                <div id="popup-overlay" class="popup-overlay">
+                    <div class="popup-content">
+                        <button class="close-btn" id="close-popup">&times;</button>
+                        
+                        <form id="edit-profile-form" class="popup-form" method="POST" action="../../backend/db/myaccount_edit.php" enctype="multipart/form-data">
+                            <h3>Edit Profile</h3>
+                            
+                            <div class="form-group">
+                                <label for="username-input">Username:</label>
+                                <input type="text" id="username-input" name="username" value="<?php echo htmlspecialchars($username); ?>" required>
+                            </div>
 
-                            <label for="photo-input">Profile Photo:</label><br>
-                            <input type="file" id="photo-input" name="photo" accept="image/*"><br><br>
+                            <div class="form-group">
+                                <label for="email-input">Email:</label>
+                                <input type="email" id="email-input" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                            </div>
 
-                            <button type="submit">Save Changes</button>
-                            <button type="button" id="cancel-edit-btn">Cancel</button>
+                            <div class="form-group">
+                                <label for="employment-input">Employment:</label>
+                                <input type="text" id="employment-input" name="employment" value="<?php echo htmlspecialchars($employment); ?>">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="photo-input">Profile Photo:</label>
+                                <input type="file" id="photo-input" name="photo" accept="image/*">
+                            </div>
+
+                            <div class="form-buttons">
+                                <button type="button" id="cancel-edit-btn" class="btn btn-secondary">Cancel</button>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </div>
                         </form>
+                    </div>
                 </div>
 
                 <!-- Account Preferences Section -->

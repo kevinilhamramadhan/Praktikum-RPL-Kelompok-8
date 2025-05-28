@@ -1,5 +1,22 @@
 <?php
+session_start();
 include 'db_connect.php';
+
+$adminId = $_SESSION['admin_id'];
+
+// Prepare statement
+$stmt = mysqli_prepare($conn, "SELECT email, photo FROM profil WHERE admin_id = ?");
+mysqli_stmt_bind_param($stmt, "i", $adminId); // "i" untuk integer, ganti sesuai tipe data admin_id
+
+mysqli_stmt_execute($stmt);
+$result = mysqli_stmt_get_result($stmt);
+
+$profil = mysqli_fetch_assoc($result);
+
+// Set nilai default jika data tidak ada
+$email = !empty($profil['email']) ? $profil['email'] : 'Email not set';
+$fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
+
 ?>
 
 <!DOCTYPE html>
@@ -421,7 +438,7 @@ include 'db_connect.php';
 <body>
     <div class="sidebar">
         <div class="logo-container">
-            <img class="logo" src="../../frontend/images/logo/Logo-group.png" alt="logo">
+            <img class="logo" src="../../images/logo/Logo-group.png" alt="logo">
         </div>
         
         <a href="../../app/homepage.php" class="menu-item">
@@ -436,7 +453,7 @@ include 'db_connect.php';
                 <i class="fas fa-chevron-down submenu-icon rotate-icon"></i>
             </a>
             <div class="submenu">
-                <a href="../../management/data_customer/index.php" class="submenu-item">Data Consumer Management</a>
+                <a href="../../app/data_customer.php" class="submenu-item">Data Consumer Management</a>
                 <a href="../../management/data_sparepart/index.php" class="submenu-item active">Data Sparepart Management</a>
             </div>
         </div>
@@ -448,7 +465,7 @@ include 'db_connect.php';
         
         <a href="../../app/repair.php" class="menu-item">
             <i class="fas fa-wrench"></i>
-            Repair Service
+            History Service
         </a>
         
         <a href="../../app/help.php" class="menu-item">
@@ -465,12 +482,16 @@ include 'db_connect.php';
     <div class="main-content">
         <div class="header">
             <h1>Data Sparepart Management</h1>
-            <div class="user-info">
-                <span class="email">Leopoldobenavent@reangel.com</span>
-                <div class="user-icon">
-                    <i class="fas fa-user"></i>
+                <div class="user-info">
+                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
+                    <div class="user-icon">
+                        <?php if ($fotoProfil): ?>
+                            <img src="../../../backend/profile_photos/<?php echo htmlspecialchars($fotoProfil); ?>" alt="Profile Photo" style="width: 35px; height: 35px; border-radius: 50%;">
+                        <?php else: ?>
+                            <i class="fas fa-user"></i>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
         </div>
         
         <div class="content">
@@ -481,9 +502,7 @@ include 'db_connect.php';
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div class="settings-icon">
-                    <i class="fas fa-sliders-h"></i>
-                </div>
+                
             </div>
         
             <div class="data-table-container">

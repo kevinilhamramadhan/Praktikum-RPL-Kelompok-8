@@ -1,3 +1,19 @@
+<?php
+session_start();
+require_once '../../backend/config/koneksi.php'; // koneksi PDO
+
+// menampilkan email
+$adminId = $_SESSION['admin_id'];
+$query = "SELECT email, photo FROM profil WHERE admin_id = ?";
+$stmt = $pdo->prepare($query);
+$stmt->execute([$adminId]);
+$profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+// Set nilai default jika data tidak ada
+$email = !empty($profil['email']) ? $profil['email'] : 'Email not set';
+$fotoProfil = !empty($profil['photo']) ? $profil['photo'] : null;
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -56,12 +72,16 @@
     <div class="main-content">
         <div class="header">
             <h1>Help</h1>
-            <div class="user-info">
-                <span class="email">Leopoldobenavent@reangel.com</span>
-                <div class="user-icon">
-                    <i class="fas fa-user"></i>
+                <div class="user-info">
+                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
+                    <div class="user-icon">
+                        <?php if ($fotoProfil): ?>
+                            <img src="../../backend/profile_photos/<?php echo htmlspecialchars($fotoProfil); ?>" alt="Profile Photo" style="width: 35px; height: 35px; border-radius: 50%;">
+                        <?php else: ?>
+                            <i class="fas fa-user"></i>
+                        <?php endif; ?>
+                    </div>
                 </div>
-            </div>
         </div>
         <div class="content">
             <!-- Search Bar -->
@@ -72,9 +92,7 @@
                         <i class="fas fa-search"></i>
                     </button>
                 </div>
-                <div class="settings-icon">
-                    <i class="fas fa-sliders-h"></i>
-                </div>
+                
             </div>
 
             <div class="help">

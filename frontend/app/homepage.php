@@ -61,9 +61,13 @@ require '../../backend/db/homepage_db.php';
             <div class="header">
                 <h1>Dashboard</h1>
                 <div class="user-info">
-                    <span class="email"></span>
+                    <span class="email"><?php echo htmlspecialchars($email); ?></span>
                     <div class="user-icon">
-                        <i class="fas fa-user"></i>
+                        <?php if ($fotoProfil): ?>
+                            <img src="../../backend/profile_photos/<?php echo htmlspecialchars($fotoProfil); ?>" alt="Profile Photo" style="width: 35px; height: 35px; border-radius: 50%;">
+                        <?php else: ?>
+                            <i class="fas fa-user"></i>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
@@ -83,17 +87,6 @@ require '../../backend/db/homepage_db.php';
                     </div>
                 </div>
                 
-                <div class="search-bar">
-                    <div class="search-container">
-                        <input type="text" placeholder="Search" class="search-input" id="searchInput">
-                        <button class="search-btn">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                    <div class="settings-icon">
-                        <i class="fas fa-sliders-h"></i>
-                    </div>
-                </div>
                 
                 <div class="workshop-notes">
                     <h2 class="section-title">Latest Workshop Notes</h2>

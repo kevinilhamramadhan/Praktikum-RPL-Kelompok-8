@@ -184,8 +184,8 @@ body {
     background-color: #b8860b;
 }
 
-.stat-card.complete {
-    background-color: #00a651;
+.stat-card.completed {
+    background-color: #00a651 !important;
 }
 
 .stat-card .number {

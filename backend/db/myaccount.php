@@ -22,4 +22,5 @@ $username = $user['username'] ?? 'Name not set';
 $email = $user['email'] ?? 'Email not set';
 $employment = $user['employment'] ?? 'Employment info not set';
 $photo = !empty($user['photo']) ? $user['photo'] : '../../frontend/images/icons/icon2.png';
+$fotoProfil = !empty($user['photo']) ? $user['photo'] : null;
 ?>
