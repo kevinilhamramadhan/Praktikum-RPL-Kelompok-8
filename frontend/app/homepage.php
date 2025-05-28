@@ -42,7 +42,7 @@ require '../../backend/db/homepage_db.php';
             </a>
             
             <a href="repair.php" class="menu-item">
-                <i class="fas fa-cogs"></i>
+                <i class="fas fa-wrench"></i>
                 History Service
             </a>
             
