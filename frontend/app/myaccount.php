@@ -89,7 +89,7 @@ include '../../backend/db/myaccount.php';
                     <div class="profile-info">
 
                                 <div class="profile-avatar">
-                                    <img src="<?php echo htmlspecialchars($photo); ?>" alt="Profile Photo" style="width:100px; height:100px; border-radius:50%;">
+                                    <img src="../../backend/profile_photos/<?php echo htmlspecialchars($photo); ?>" alt="Profile Photo" style="width:100px; height:100px; border-radius:50%;">
                                 </div>
                                 <div class="profile-details">
                                     <p id="username"><?php echo htmlspecialchars($username); ?></p>
@@ -132,7 +132,7 @@ include '../../backend/db/myaccount.php';
                     </div>
                     <div class="preference-item">
                         <span>Switch Account</span>
-                        <button class="logout-btn" onclick="window.location.href='../../backend/db/logout.php'">Logout</button>
+                        <button id="logoutButton" class="logout-btn" onclick="window.location.href='../../backend/db/logout.php'">Logout</button>
 
                     </div>
                 </div>

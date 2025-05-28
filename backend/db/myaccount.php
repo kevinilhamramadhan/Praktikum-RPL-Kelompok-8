@@ -16,7 +16,7 @@ $stmt->execute();
 
 $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-$photo = !empty($user['photo']) ? $user['photo'] : '../../frontend/images/icons/avatar.png';
+$photo = !empty($user['photo']) ? $user['photo'] : '../../frontend/images/icons/icon2.png';
 $email = !empty($user['email']) ? $user['email'] : 'Email not set';
 $employment = !empty($user['employment']) ? $user['employment'] : 'Employment info not set';
 

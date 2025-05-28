@@ -8,14 +8,13 @@ $email = $_POST['email'] ?? '';
 $employment = $_POST['employment'] ?? '';
 
 // Ambil user ID dari session (pastikan sudah diset sebelumnya)
-$profilId = $_SESSION['profil_id'] ?? null;
-
-if (!$profilId) {
-    header("Location: ../../frontend/app/myaccount.php?update=error_noprofile");
+$adminId = $_SESSION['admin_id'] ?? null;
+if (!$adminId) {
+    header("Location: ../../frontend/app/myaccount.php?update=error_noadmin");
     exit;
-}// Pastikan `user_id` disimpan di session saat login
+}
 
-// Default photo path dari user sebelumnya
+// Default photo path dari session
 $photoPath = $_SESSION['photo'] ?? '';
 
 // Upload file foto jika ada
@@ -34,16 +33,38 @@ if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
 }
 
 try {
-    // Persiapkan statement update
-    $sql = "UPDATE profil SET username = :username, email = :email, employment = :employment, photo = :photo WHERE id = :id";
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute([
-        ':username' => $username,
-        ':email' => $email,
-        ':employment' => $employment,
-        ':photo' => $photoPath,
-        ':id' => $profilId
-    ]);
+    // Cek apakah profil sudah ada
+    $stmt = $pdo->prepare("SELECT id FROM profil WHERE admin_id = ?");
+    $stmt->execute([$adminId]);
+    $profil = $stmt->fetch(PDO::FETCH_ASSOC);
+
+    if ($profil) {
+        // Kalau profil sudah ada → update
+        $profilId = $profil['id'];
+        $sql = "UPDATE profil SET username = :username, email = :email, employment = :employment, photo = :photo WHERE id = :id";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':employment' => $employment,
+            ':photo' => $photoPath,
+            ':id' => $profilId
+        ]);
+    } else {
+        // Kalau belum ada → insert
+        $sql = "INSERT INTO profil (admin_id, username, email, employment, photo) VALUES (:admin_id, :username, :email, :employment, :photo)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':admin_id' => $adminId,
+            ':username' => $username,
+            ':email' => $email,
+            ':employment' => $employment,
+            ':photo' => $photoPath
+        ]);
+        $profilId = $pdo->lastInsertId();
+        $_SESSION['profil_id'] = $profilId;
+    }
+
     if ($stmt->rowCount() > 0) {
         // Update session variable
         $_SESSION['username'] = $username;
@@ -60,4 +81,3 @@ try {
     header("Location: ../../frontend/app/myaccount.php?update=error");
 }
 exit;
-?>
