@@ -40,3 +40,15 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+
+logoutButton.addEventListener("click", async function() {
+    try {
+        const res = await fetch("/logout", { method: "POST" }); // endpoint logout
+        if (res.ok) {
+            window.location.href = "login.html";
+        }
+    } catch (error) {
+        console.error("Logout failed:", error);
+    }
+});

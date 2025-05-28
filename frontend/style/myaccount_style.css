@@ -355,6 +355,14 @@ input:checked + .slider:before {
 
 }
 
+.logout-btn:hover {
+    background-color: #e60000;     /* Warna saat hover */
+}
+
+.logout-btn:active {
+    transform: scale(0.98);        /* Efek klik */
+}
+
 /* Activity Section */
 .activity-item {
     display: flex;

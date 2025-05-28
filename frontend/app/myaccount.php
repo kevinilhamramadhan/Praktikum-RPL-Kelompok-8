@@ -132,7 +132,8 @@ include '../../backend/db/myaccount.php';
                     </div>
                     <div class="preference-item">
                         <span>Switch Account</span>
-                        <button class="logout-btn">Logout</button>
+                        <button class="logout-btn" onclick="window.location.href='../../backend/db/logout.php'">Logout</button>
+
                     </div>
                 </div>
 
